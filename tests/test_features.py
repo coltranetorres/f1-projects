@@ -6,6 +6,8 @@ from driver_similarity.features import (
     count_overtakes,
     tire_preservation_slope,
     is_wet_session,
+    build_race_feature_row,
+    aggregate_driver_features,
 )
 
 
@@ -117,3 +119,87 @@ def test_is_wet_session_majority_rainfall_true():
 def test_is_wet_session_majority_dry():
     weather = pd.DataFrame({"Rainfall": [True, False, False, False]})
     assert is_wet_session(weather) is False
+
+
+def test_build_race_feature_row_combines_all_sources():
+    race_laps = pd.DataFrame({
+        "Driver": ["VER", "VER", "VER"],
+        "LapNumber": [2, 3, 4],
+        "Position": [5, 4, 4],
+        "PitInTime": [None, None, None],
+        "PitOutTime": [None, None, None],
+        "IsAccurate": [True, True, True],
+        "Stint": [1, 1, 1],
+        "TyreLife": [1, 2, 3],
+        "LapTime": [80.0, 80.2, 80.4],
+    })
+    quali_laps = pd.DataFrame({"Driver": ["VER", "HAM"], "LapTime": [79.0, 79.5]})
+    weather = pd.DataFrame({"Rainfall": [False, False]})
+    telemetry_features = pd.DataFrame({
+        "driver": ["VER"],
+        "brake_zone_count": [12.0],
+        "mean_brake_duration": [8.0],
+        "mean_brake_onset_speed": [270.0],
+        "throttle_aggression": [0.6],
+    })
+
+    row = build_race_feature_row("VER", race_laps, quali_laps, weather, telemetry_features, round_num=1)
+
+    assert row["driver"] == "VER"
+    assert row["round"] == 1
+    assert row["qualifying_pace"] == pytest.approx(0.0)
+    assert row["overtakes"] == 1
+    assert row["tire_preservation"] == pytest.approx(0.2)
+    assert row["brake_zone_count"] == pytest.approx(12.0)
+    assert row["is_wet"] is False
+    assert row["wet_performance"] is None
+
+
+def test_build_race_feature_row_missing_telemetry_driver_returns_none_fields():
+    race_laps = pd.DataFrame({
+        "Driver": ["HAM", "HAM"],
+        "LapNumber": [2, 3],
+        "Position": [5, 5],
+        "PitInTime": [None, None],
+        "PitOutTime": [None, None],
+        "IsAccurate": [True, True],
+        "Stint": [1, 1],
+        "TyreLife": [1, 2],
+        "LapTime": [81.0, 81.0],
+    })
+    quali_laps = pd.DataFrame({"Driver": ["HAM"], "LapTime": [79.5]})
+    weather = pd.DataFrame({"Rainfall": [False]})
+    telemetry_features = pd.DataFrame({
+        "driver": ["VER"], "brake_zone_count": [12.0], "mean_brake_duration": [8.0],
+        "mean_brake_onset_speed": [270.0], "throttle_aggression": [0.6],
+    })
+
+    row = build_race_feature_row("HAM", race_laps, quali_laps, weather, telemetry_features, round_num=1)
+    assert row["brake_zone_count"] is None
+    assert row["throttle_aggression"] is None
+
+
+def test_aggregate_driver_features_averages_across_rounds_and_imputes_wet():
+    race_feature_rows = pd.DataFrame([
+        {"driver": "VER", "round": 1, "qualifying_pace": 0.0, "overtakes": 2, "tire_preservation": 0.1,
+         "brake_zone_count": 10.0, "mean_brake_duration": 8.0, "mean_brake_onset_speed": 270.0,
+         "throttle_aggression": 0.5, "is_wet": False, "wet_performance": None},
+        {"driver": "VER", "round": 2, "qualifying_pace": 0.5, "overtakes": 0, "tire_preservation": 0.2,
+         "brake_zone_count": 12.0, "mean_brake_duration": 9.0, "mean_brake_onset_speed": 260.0,
+         "throttle_aggression": 0.6, "is_wet": True, "wet_performance": 1.2},
+        {"driver": "HAM", "round": 1, "qualifying_pace": 1.0, "overtakes": 1, "tire_preservation": 0.05,
+         "brake_zone_count": 9.0, "mean_brake_duration": 7.0, "mean_brake_onset_speed": 280.0,
+         "throttle_aggression": 0.4, "is_wet": False, "wet_performance": None},
+    ])
+
+    result = aggregate_driver_features(race_feature_rows)
+    result = result.set_index("driver")
+
+    assert result.loc["VER", "qualifying_pace"] == pytest.approx(0.25)
+    assert result.loc["VER", "overtakes"] == pytest.approx(1.0)
+    assert result.loc["VER", "wet_performance"] == pytest.approx(1.2)
+    assert bool(result.loc["VER", "has_wet_data"]) is True
+
+    # HAM has no wet data -> imputed with grid mean of non-null wet_performance (1.2)
+    assert result.loc["HAM", "wet_performance"] == pytest.approx(1.2)
+    assert bool(result.loc["HAM", "has_wet_data"]) is False

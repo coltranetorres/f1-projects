@@ -45,3 +45,52 @@ def is_wet_session(weather: pd.DataFrame) -> bool:
     if weather.empty:
         return False
     return bool(weather["Rainfall"].astype(bool).mean() > 0.5)
+
+
+def build_race_feature_row(
+    driver: str,
+    race_laps: pd.DataFrame,
+    quali_laps: pd.DataFrame,
+    weather: pd.DataFrame,
+    telemetry_features: pd.DataFrame,
+    round_num: int,
+) -> dict:
+    tf = telemetry_features[telemetry_features["driver"] == driver]
+    tf_row = tf.iloc[0] if not tf.empty else None
+    wet = is_wet_session(weather)
+
+    return {
+        "driver": driver,
+        "round": round_num,
+        "qualifying_pace": qualifying_pace(quali_laps, driver),
+        "overtakes": count_overtakes(race_laps, driver),
+        "tire_preservation": tire_preservation_slope(race_laps, driver),
+        "brake_zone_count": float(tf_row["brake_zone_count"]) if tf_row is not None else None,
+        "mean_brake_duration": float(tf_row["mean_brake_duration"]) if tf_row is not None else None,
+        "mean_brake_onset_speed": float(tf_row["mean_brake_onset_speed"]) if tf_row is not None else None,
+        "throttle_aggression": float(tf_row["throttle_aggression"]) if tf_row is not None else None,
+        "is_wet": wet,
+        # wet_performance is computed later at aggregation time (needs both
+        # wet and dry race pace for the same driver); left None per-race.
+        "wet_performance": None,
+    }
+
+
+AGG_COLUMNS = [
+    "qualifying_pace", "overtakes", "tire_preservation",
+    "brake_zone_count", "mean_brake_duration", "mean_brake_onset_speed",
+    "throttle_aggression",
+]
+
+
+def aggregate_driver_features(race_feature_rows: pd.DataFrame) -> pd.DataFrame:
+    grouped = race_feature_rows.groupby("driver")[AGG_COLUMNS].mean()
+
+    wet_by_driver = race_feature_rows.groupby("driver")["wet_performance"].mean()
+    has_wet = race_feature_rows.groupby("driver")["wet_performance"].apply(lambda s: s.notna().any())
+    grid_wet_mean = wet_by_driver.mean(skipna=True)
+    imputed_wet = wet_by_driver.fillna(grid_wet_mean if pd.notna(grid_wet_mean) else 0.0)
+
+    grouped["wet_performance"] = imputed_wet
+    grouped["has_wet_data"] = has_wet
+    return grouped.reset_index()
