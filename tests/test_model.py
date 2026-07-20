@@ -83,3 +83,23 @@ def test_render_html_includes_driver_names_and_cluster_captions():
     assert "Smooth Operator" in html
     assert "<html" in html.lower()
     assert "http://" not in html and "https://" not in html  # self-contained, no external refs
+
+
+def test_render_html_includes_qualitative_axis_framing():
+    df = pd.DataFrame({
+        "driver": ["VER", "HAM"],
+        "pc1": [1.0, -1.0],
+        "pc2": [0.5, -0.5],
+        "cluster": [0, 1],
+    })
+    labels = {0: "Aggressive Overtaker", 1: "Smooth Operator"}
+
+    html = render_html(df, labels)
+
+    # A visible plot frame/border so the chart reads as axes, not a floating point cloud.
+    assert "<rect" in html
+    # A plain-language caption explaining what position/distance mean, without
+    # fabricating specific per-axis semantic claims (PC1/PC2 meaning is data-dependent).
+    assert "driving-style similarity" in html
+    # No hardcoded literal claim about what a specific axis means (e.g. "PC1 = aggression").
+    assert "PC1 = " not in html and "PC1=" not in html

@@ -120,6 +120,20 @@ def render_html(df: pd.DataFrame, archetype_labels: dict[int, str]) -> str:
             f'<text x="{cx:.1f}" y="{cy - 12:.1f}" font-size="12" text-anchor="middle" fill="#111">{row["driver"]}</text>'
         )
 
+    frame_left, frame_top = 60, 60
+    frame_right, frame_bottom = width - 60, height - 60
+    axis_svg = (
+        f'<rect x="{frame_left}" y="{frame_top}" width="{frame_right - frame_left}" '
+        f'height="{frame_bottom - frame_top}" fill="none" stroke="#999" stroke-width="1"/>'
+        f'<line x1="{frame_left}" y1="{frame_bottom}" x2="{frame_right}" y2="{frame_bottom}" stroke="#999" stroke-width="1"/>'
+        f'<line x1="{frame_left}" y1="{frame_top}" x2="{frame_left}" y2="{frame_bottom}" stroke="#999" stroke-width="1"/>'
+        f'<text x="{(frame_left + frame_right) / 2:.1f}" y="{frame_bottom + 32:.1f}" font-size="12" '
+        f'text-anchor="middle" fill="#666">Horizontal spread: strongest style difference (PC1)</text>'
+        f'<text x="{frame_left - 40:.1f}" y="{(frame_top + frame_bottom) / 2:.1f}" font-size="12" '
+        f'text-anchor="middle" fill="#666" transform="rotate(-90 {frame_left - 40:.1f} '
+        f'{(frame_top + frame_bottom) / 2:.1f})">Vertical spread: second-strongest style difference (PC2)</text>'
+    )
+
     captions = []
     for cluster_id in clusters:
         drivers_in_cluster = df.loc[df["cluster"] == cluster_id, "driver"].tolist()
@@ -149,8 +163,10 @@ def render_html(df: pd.DataFrame, archetype_labels: dict[int, str]) -> str:
 <h1>2026 Driver Similarity Map</h1>
 <p class="subtitle">Drivers positioned by driving style across qualifying pace, overtaking, tire management, braking, aggression, and wet-weather performance. Drivers placed close together race in a similar way.</p>
 <svg width="{width}" height="{height}" viewBox="0 0 {width} {height}">
+  {axis_svg}
   {''.join(points_svg)}
 </svg>
+<p class="caption">Position reflects overall driving-style similarity: drivers placed close together race in a similar way. The horizontal and vertical axes each capture one of the two strongest style differences across the grid, but do not correspond to a single named trait &mdash; read distance between drivers, not direction, as the meaningful signal.</p>
 <h2>Style groups</h2>
 <div class="caption">
 {''.join(captions)}
