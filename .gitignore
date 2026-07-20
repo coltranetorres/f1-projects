@@ -11,3 +11,8 @@ wheels/
 
 # InsightFace model cache (too large for git)
 driver_recognition/models/
+
+# Driver similarity data files
+driver_similarity/cache/
+driver_similarity/data/
+driver_similarity/output/
