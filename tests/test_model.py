@@ -43,6 +43,21 @@ def test_run_pca_and_cluster_adds_expected_columns():
     assert all(0 <= v <= 1 for v in explained_variance)
 
 
+def test_run_pca_and_cluster_imputes_nan_feature_for_sparse_driver(capsys):
+    df = compute_style_scores(_synthetic_drivers())
+    df.loc[df["driver"] == "D0", "tire_preservation"] = np.nan
+
+    result, explained_variance = run_pca_and_cluster(df, FEATURE_COLS)
+
+    assert result[["pc1", "pc2", "cluster"]].notna().all().all()
+    assert len(result) == len(df)
+    assert len(explained_variance) == 2
+
+    captured = capsys.readouterr()
+    assert "tire_preservation" in captured.out
+    assert "D0" in captured.out
+
+
 def test_label_archetypes_returns_one_label_per_cluster():
     df = compute_style_scores(_synthetic_drivers())
     clustered, _ = run_pca_and_cluster(df, FEATURE_COLS)

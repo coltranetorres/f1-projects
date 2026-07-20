@@ -45,6 +45,16 @@ def compute_style_scores(df: pd.DataFrame) -> pd.DataFrame:
 
 def run_pca_and_cluster(df: pd.DataFrame, feature_cols: list[str]) -> tuple[pd.DataFrame, tuple[float, float]]:
     out = df.copy()
+
+    for col in feature_cols:
+        nan_mask = out[col].isna()
+        if nan_mask.any():
+            col_mean = out[col].mean(skipna=True)
+            fill_value = col_mean if pd.notna(col_mean) else 0.0
+            drivers = out.loc[nan_mask, "driver"].tolist() if "driver" in out.columns else nan_mask.sum()
+            print(f"Imputed NaN in {col} for drivers: {drivers}")
+            out[col] = out[col].fillna(fill_value)
+
     x = StandardScaler().fit_transform(out[feature_cols])
 
     pca = PCA(n_components=2, random_state=0)
