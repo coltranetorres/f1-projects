@@ -1,5 +1,7 @@
 import pandas as pd
 import pytest
+from pathlib import Path
+import tempfile
 from driver_similarity.telemetry_metrics import compute_braking_metrics, compute_throttle_aggression
 from driver_similarity.features import (
     qualifying_pace,
@@ -10,6 +12,7 @@ from driver_similarity.features import (
     aggregate_driver_features,
     compute_wet_performance,
 )
+from driver_similarity import build_driver_features
 
 
 def test_compute_braking_metrics_counts_zones_and_onset_speed():
@@ -258,3 +261,31 @@ def test_tire_preservation_slope_multiple_stints_skips_nan_stint():
     # Stint 1 is valid (slope ~0.5); Stint 3 is all-NaN and should be skipped.
     result = tire_preservation_slope(race_laps, "BEA")
     assert result == pytest.approx(0.5)
+
+
+def test_event_prefix_excludes_sprint_laps_csv():
+    """Test that _event_prefix excludes sprint session files and selects race laps.
+
+    For sprint weekends, both R{n}_*_laps.csv (race) and R{n}_*_sprint_laps.csv (sprint)
+    exist in the data directory. The function must explicitly exclude sprint files and
+    return the race prefix, not rely on alphabetical sort order.
+    """
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmpdir_path = Path(tmpdir)
+
+        # Create both race and sprint laps CSV files for round 5
+        race_laps_file = tmpdir_path / "R05_Some_Grand_Prix_laps.csv"
+        sprint_laps_file = tmpdir_path / "R05_Some_Grand_Prix_sprint_laps.csv"
+        race_laps_file.touch()
+        sprint_laps_file.touch()
+
+        # Monkeypatch DATA_DIR in the build_driver_features module
+        original_data_dir = build_driver_features.DATA_DIR
+        try:
+            build_driver_features.DATA_DIR = tmpdir_path
+            result = build_driver_features._event_prefix(5)
+            # Must return the race prefix, not the sprint prefix
+            assert result == "R05_Some_Grand_Prix"
+            assert "_sprint_" not in result
+        finally:
+            build_driver_features.DATA_DIR = original_data_dir

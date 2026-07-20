@@ -14,7 +14,10 @@ ROUNDS = range(1, 10)
 
 
 def _event_prefix(round_num: int) -> str:
-    matches = sorted(DATA_DIR.glob(f"R{round_num:02d}_*_laps.csv"))
+    matches = sorted(
+        m for m in DATA_DIR.glob(f"R{round_num:02d}_*_laps.csv")
+        if "_sprint_" not in m.name
+    )
     if not matches:
         raise FileNotFoundError(f"No laps CSV found for round {round_num}")
     return matches[0].name.removesuffix("_laps.csv")
