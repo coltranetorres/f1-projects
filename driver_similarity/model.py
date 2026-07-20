@@ -81,3 +81,89 @@ def label_archetypes(df: pd.DataFrame, feature_cols: list[str]) -> dict[int, str
             (strongest_feature, direction), f"Style Group {cluster_id}"
         )
     return labels
+
+
+def render_html(df: pd.DataFrame, archetype_labels: dict[int, str]) -> str:
+    x_min, x_max = df["pc1"].min(), df["pc1"].max()
+    y_min, y_max = df["pc2"].min(), df["pc2"].max()
+    x_pad = (x_max - x_min) * 0.15 or 1.0
+    y_pad = (y_max - y_min) * 0.15 or 1.0
+
+    width, height = 900, 600
+
+    def scale_x(v):
+        return 60 + (v - (x_min - x_pad)) / ((x_max + x_pad) - (x_min - x_pad)) * (width - 120)
+
+    def scale_y(v):
+        return 60 + (1 - (v - (y_min - y_pad)) / ((y_max + y_pad) - (y_min - y_pad))) * (height - 120)
+
+    palette = ["#e63946", "#457b9d", "#2a9d8f", "#f4a261", "#8338ec", "#ffbe0b"]
+    clusters = sorted(df["cluster"].unique())
+    color_by_cluster = {c: palette[i % len(palette)] for i, c in enumerate(clusters)}
+
+    points_svg = []
+    for _, row in df.iterrows():
+        cx, cy = scale_x(row["pc1"]), scale_y(row["pc2"])
+        color = color_by_cluster[row["cluster"]]
+        points_svg.append(
+            f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="8" fill="{color}" stroke="#111" stroke-width="1"/>'
+            f'<text x="{cx:.1f}" y="{cy - 12:.1f}" font-size="12" text-anchor="middle" fill="#111">{row["driver"]}</text>'
+        )
+
+    captions = []
+    for cluster_id in clusters:
+        drivers_in_cluster = df.loc[df["cluster"] == cluster_id, "driver"].tolist()
+        label = archetype_labels.get(cluster_id, f"Style Group {cluster_id}")
+        color = color_by_cluster[cluster_id]
+        captions.append(
+            f'<div style="margin-bottom:12px;">'
+            f'<span style="display:inline-block;width:12px;height:12px;background:{color};'
+            f'border-radius:50%;margin-right:8px;"></span>'
+            f'<strong>{label}</strong> &mdash; {", ".join(drivers_in_cluster)}'
+            f'</div>'
+        )
+
+    return f"""<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>2026 Driver Similarity Map</title>
+<style>
+  body {{ font-family: -apple-system, Segoe UI, Roboto, sans-serif; margin: 40px; color: #111; background: #fff; }}
+  h1 {{ font-size: 24px; }}
+  p.subtitle {{ color: #555; max-width: 700px; }}
+  .caption {{ font-size: 14px; }}
+</style>
+</head>
+<body>
+<h1>2026 Driver Similarity Map</h1>
+<p class="subtitle">Drivers positioned by driving style across qualifying pace, overtaking, tire management, braking, aggression, and wet-weather performance. Drivers placed close together race in a similar way.</p>
+<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}">
+  {''.join(points_svg)}
+</svg>
+<h2>Style groups</h2>
+<div class="caption">
+{''.join(captions)}
+</div>
+</body>
+</html>"""
+
+
+def main() -> None:
+    OUTPUT_DIR.mkdir(exist_ok=True)
+    df = pd.read_csv(DATA_DIR / "driver_features.csv")
+    df = compute_style_scores(df)
+    df, explained_variance = run_pca_and_cluster(df, FEATURE_COLS)
+    print(f"PCA explained variance: PC1={explained_variance[0]:.2%}, PC2={explained_variance[1]:.2%}")
+    labels = label_archetypes(df, FEATURE_COLS)
+    for cluster_id, label in labels.items():
+        drivers = df.loc[df["cluster"] == cluster_id, "driver"].tolist()
+        print(f"Cluster {cluster_id} ({label}): {', '.join(drivers)}")
+
+    html = render_html(df, labels)
+    (OUTPUT_DIR / "driver_similarity.html").write_text(html, encoding="utf-8")
+    print(f"Saved {OUTPUT_DIR / 'driver_similarity.html'}")
+
+
+if __name__ == "__main__":
+    main()

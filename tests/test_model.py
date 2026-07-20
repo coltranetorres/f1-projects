@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import pytest
-from driver_similarity.model import compute_style_scores, run_pca_and_cluster, label_archetypes
+from driver_similarity.model import compute_style_scores, run_pca_and_cluster, label_archetypes, render_html
 
 FEATURE_COLS = [
     "qualifying_pace", "overtakes", "tire_preservation",
@@ -49,3 +49,22 @@ def test_label_archetypes_returns_one_label_per_cluster():
     labels = label_archetypes(clustered, FEATURE_COLS)
     assert set(labels.keys()) == set(clustered["cluster"].unique())
     assert all(isinstance(v, str) and len(v) > 0 for v in labels.values())
+
+
+def test_render_html_includes_driver_names_and_cluster_captions():
+    df = pd.DataFrame({
+        "driver": ["VER", "HAM"],
+        "pc1": [1.0, -1.0],
+        "pc2": [0.5, -0.5],
+        "cluster": [0, 1],
+    })
+    labels = {0: "Aggressive Overtaker", 1: "Smooth Operator"}
+
+    html = render_html(df, labels)
+
+    assert "VER" in html
+    assert "HAM" in html
+    assert "Aggressive Overtaker" in html
+    assert "Smooth Operator" in html
+    assert "<html" in html.lower()
+    assert "http://" not in html and "https://" not in html  # self-contained, no external refs
