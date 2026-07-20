@@ -216,3 +216,45 @@ def test_compute_wet_performance_positive_when_better_in_wet():
     result = compute_wet_performance(driver_race_pace)
     assert result["VER"] == pytest.approx(1.25 - 0.2)
     assert pd.isna(result["HAM"])
+
+
+def test_tire_preservation_slope_nan_tyrelife_skips_stint():
+    """Reproduce bug: stint with all-NaN TyreLife should not raise LinAlgError."""
+    race_laps = pd.DataFrame({
+        "Driver": ["BEA"] * 4,
+        "IsAccurate": [True] * 4,
+        "Stint": [3, 3, 3, 3],
+        "TyreLife": [float('nan'), float('nan'), float('nan'), float('nan')],
+        "LapTime": [85.0, 85.5, 86.0, 86.5],
+    })
+    # Only stint for driver BEA has all-NaN TyreLife; should skip and return None.
+    result = tire_preservation_slope(race_laps, "BEA")
+    assert result is None
+
+
+def test_tire_preservation_slope_partial_nan_tyrelife_skips_stint():
+    """Stint with partial NaN TyreLife should be skipped (np.polyfit fails on any NaN)."""
+    race_laps = pd.DataFrame({
+        "Driver": ["BEA"] * 4,
+        "IsAccurate": [True] * 4,
+        "Stint": [3, 3, 3, 3],
+        "TyreLife": [1.0, float('nan'), 3.0, 4.0],
+        "LapTime": [85.0, 85.5, 86.0, 86.5],
+    })
+    # Only stint for driver BEA has partial-NaN TyreLife; should skip and return None.
+    result = tire_preservation_slope(race_laps, "BEA")
+    assert result is None
+
+
+def test_tire_preservation_slope_multiple_stints_skips_nan_stint():
+    """Multiple stints: one valid, one with NaN TyreLife; should use only the valid one."""
+    race_laps = pd.DataFrame({
+        "Driver": ["BEA"] * 8,
+        "IsAccurate": [True] * 8,
+        "Stint": [1, 1, 1, 1, 3, 3, 3, 3],
+        "TyreLife": [1.0, 2.0, 3.0, 4.0, float('nan'), float('nan'), float('nan'), float('nan')],
+        "LapTime": [80.0, 80.5, 81.0, 81.5, 85.0, 85.5, 86.0, 86.5],
+    })
+    # Stint 1 is valid (slope ~0.5); Stint 3 is all-NaN and should be skipped.
+    result = tire_preservation_slope(race_laps, "BEA")
+    assert result == pytest.approx(0.5)

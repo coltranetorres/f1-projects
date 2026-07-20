@@ -32,6 +32,8 @@ def tire_preservation_slope(race_laps: pd.DataFrame, driver: str) -> float | Non
             continue
         x = stint_laps["TyreLife"].astype(float).to_numpy()
         y = stint_laps["LapTime"].astype(float).to_numpy()
+        if np.isnan(x).any() or np.isnan(y).any():
+            continue
         if np.std(x) == 0:
             continue
         slope = np.polyfit(x, y, 1)[0]
