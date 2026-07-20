@@ -8,6 +8,7 @@ from driver_similarity.features import (
     is_wet_session,
     build_race_feature_row,
     aggregate_driver_features,
+    compute_wet_performance,
 )
 
 
@@ -203,3 +204,15 @@ def test_aggregate_driver_features_averages_across_rounds_and_imputes_wet():
     # HAM has no wet data -> imputed with grid mean of non-null wet_performance (1.2)
     assert result.loc["HAM", "wet_performance"] == pytest.approx(1.2)
     assert bool(result.loc["HAM", "has_wet_data"]) is False
+
+
+def test_compute_wet_performance_positive_when_better_in_wet():
+    driver_race_pace = pd.DataFrame([
+        {"driver": "VER", "round": 1, "is_wet": False, "pace_delta": 1.0},
+        {"driver": "VER", "round": 2, "is_wet": False, "pace_delta": 1.5},
+        {"driver": "VER", "round": 3, "is_wet": True, "pace_delta": 0.2},
+        {"driver": "HAM", "round": 1, "is_wet": False, "pace_delta": 0.5},
+    ])
+    result = compute_wet_performance(driver_race_pace)
+    assert result["VER"] == pytest.approx(1.25 - 0.2)
+    assert pd.isna(result["HAM"])

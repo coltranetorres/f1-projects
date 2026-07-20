@@ -83,6 +83,24 @@ AGG_COLUMNS = [
 ]
 
 
+def compute_wet_performance(driver_race_pace: pd.DataFrame) -> pd.Series:
+    """driver_race_pace: one row per (driver, round) with columns
+    ['driver', 'is_wet', 'pace_delta'] where pace_delta is the driver's mean
+    lap time delta to that race's median lap time (lower = faster relative
+    to the field). Returns, per driver, dry_mean - wet_mean (positive = the
+    driver is relatively better/faster in the wet); NaN if the driver has no
+    wet or no dry races in the dataset.
+    """
+    def _delta(group: pd.DataFrame):
+        dry = group.loc[~group["is_wet"], "pace_delta"]
+        wet = group.loc[group["is_wet"], "pace_delta"]
+        if dry.empty or wet.empty:
+            return np.nan
+        return float(dry.mean() - wet.mean())
+
+    return driver_race_pace.groupby("driver").apply(_delta, include_groups=False)
+
+
 def aggregate_driver_features(race_feature_rows: pd.DataFrame) -> pd.DataFrame:
     grouped = race_feature_rows.groupby("driver")[AGG_COLUMNS].mean()
 
