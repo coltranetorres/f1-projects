@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spain GP 2026 — Podium Prediction</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b12;
+      --card: #13131f;
+      --card2: #1a1a28;
+      --border: #252535;
+      --text: #eeeef8;
+      --muted: #7878a0;
+      --red: #e10600;
+      --gold: #d4a017;
+      --silver: #9ea0a3;
+      --bronze: #c07022;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Exo 2', system-ui, sans-serif;
+      min-height: 100vh;
+      line-height: 1.4;
+    }
+
+    /* ── HEADER ─────────────────────────────────────────── */
+    header {
+      position: relative;
+      overflow: hidden;
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+      background: linear-gradient(180deg, #160408 0%, #0b0b12 100%);
+      border-bottom: 1px solid #2a0a0a;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        #fff 0px, #fff 8px,
+        #000 8px, #000 16px
+      );
+      opacity: 0.15;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      top: 6px; left: 0; right: 0;
+      height: 3px;
+      background: var(--red);
+    }
+
+    .header-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.5em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .header-title {
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 1;
+      background: linear-gradient(160deg, #ffffff 30%, #aaaacc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-sub {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    /* ── CONTAINER ──────────────────────────────────────── */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+
+    /* ── SECTION LABEL ──────────────────────────────────── */
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .section-label span {
+      display: inline-block;
+      position: relative;
+      padding: 0 1.5rem;
+    }
+
+    .section-label span::before,
+    .section-label span::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 60px;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-label span::before { right: 100%; }
+    .section-label span::after  { left: 100%; }
+
+    /* ── PODIUM ─────────────────────────────────────────── */
+    .podium-wrap {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 4rem;
+    }
+
+    .podium-col {
+      flex: 1;
+      max-width: 290px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .p-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 14px 14px 0 0;
+      padding: 1.5rem 1rem 1.25rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .p-card::after {
+      content: '';
+      position: absolute;
+      top: -1px; left: 0; right: 0;
+      height: 4px;
+      border-radius: 14px 14px 0 0;
+    }
+
+    /* ── TEAM LOGO BADGE ────────────────────────────────── */
+    .logo-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      margin: 0 auto 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .logo-inner {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.62rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-align: center;
+      line-height: 1.1;
+      overflow: hidden;
+    }
+
+    /* ── Team color definitions ─── */
+    .team-mercedes    { background: #001f1a; border: 2px solid #00D7B6; }
+    .team-mercedes    .logo-inner { background: linear-gradient(135deg, #005a4e, #003d35); color: #00D7B6; }
+
+    .team-ferrari     { background: #1f0003; border: 2px solid #ED1131; }
+    .team-ferrari     .logo-inner { background: linear-gradient(135deg, #8b000f, #5c000a); color: #fff; }
+
+    .team-redbull     { background: #05081f; border: 2px solid #4781D7; }
+    .team-redbull     .logo-inner { background: linear-gradient(135deg, #1a2a6c, #0d1a4a); color: #4781D7; }
+
+    .team-mclaren     { background: #1f0d00; border: 2px solid #FF8000; }
+    .team-mclaren     .logo-inner { background: linear-gradient(135deg, #7a3a00, #4a2200); color: #FF8000; }
+
+    .team-alpine      { background: #1a0014; border: 2px solid #FF87BC; }
+    .team-alpine      .logo-inner { background: linear-gradient(135deg, #6b0040, #420028); color: #FF87BC; }
+
+    .team-williams    { background: #001020; border: 2px solid #64C4FF; }
+    .team-williams    .logo-inner { background: linear-gradient(135deg, #003d6b, #002040); color: #64C4FF; }
+
+    .team-audi        { background: #200000; border: 2px solid #C00000; }
+    .team-audi        .logo-inner { background: linear-gradient(135deg, #500000, #300000); color: #ff6060; }
+
+    .team-haas        { background: #1a1a1a; border: 2px solid #888; }
+    .team-haas        .logo-inner { background: linear-gradient(135deg, #444, #222); color: #ccc; }
+
+    .team-rb          { background: #04091a; border: 2px solid #6692FF; }
+    .team-rb          .logo-inner { background: linear-gradient(135deg, #1a2c6b, #0d1840); color: #6692FF; }
+
+    .team-cadillac    { background: #0a0a0a; border: 2px solid #C0A000; }
+    .team-cadillac    .logo-inner { background: linear-gradient(135deg, #3a3000, #1e1900); color: #C0A000; }
+
+    .team-astonmartin { background: #001a10; border: 2px solid #229971; }
+    .team-astonmartin .logo-inner { background: linear-gradient(135deg, #0a4a30, #062e1d); color: #229971; }
+
+    /* p-card top borders */
+    .card-mercedes::after    { background: #00D7B6; }
+    .card-ferrari::after     { background: #ED1131; }
+    .card-redbull::after     { background: #4781D7; }
+    .card-mclaren::after     { background: #FF8000; }
+    .card-alpine::after      { background: #FF87BC; }
+    .card-williams::after    { background: #64C4FF; }
+    .card-audi::after        { background: #C00000; }
+    .card-haas::after        { background: #888; }
+    .card-rb::after          { background: #6692FF; }
+    .card-cadillac::after    { background: #C0A000; }
+    .card-astonmartin::after { background: #229971; }
+
+    .p-card .car-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.3rem;
+    }
+
+    .p-card .d-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .p-card .d-team {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .p-card .d-quali {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.6rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .p-card .d-prob {
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin-top: 0.7rem;
+      letter-spacing: -0.02em;
+    }
+
+    .p-card .d-prob-label {
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .p-step {
+      border-radius: 0 0 10px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: rgba(0,0,0,0.55);
+      letter-spacing: 0.1em;
+      user-select: none;
+    }
+
+    .p1-step { height: 110px; background: linear-gradient(180deg, #c9a227 0%, #7a6010 100%); }
+    .p2-step { height: 75px;  background: linear-gradient(180deg, #9ea0a3 0%, #5a5c60 100%); }
+    .p3-step { height: 50px;  background: linear-gradient(180deg, #c07022 0%, #6b3a10 100%); }
+
+    .pos-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 900;
+      margin-bottom: 0.6rem;
+    }
+
+    .pos-p1 { background: var(--gold);   color: #000; }
+    .pos-p2 { background: var(--silver); color: #000; }
+    .pos-p3 { background: var(--bronze); color: #000; }
+
+    /* ── RANKING TABLE ──────────────────────────────────── */
+    .table-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      padding: 0.85rem 0.75rem;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--card2);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    thead th:first-child { padding-left: 1.25rem; }
+    thead th.r           { text-align: right; }
+    thead th.c           { text-align: center; }
+
+    tbody tr {
+      border-top: 1px solid var(--border);
+      transition: background 0.12s;
+    }
+
+    tbody tr:hover { background: rgba(255,255,255,0.025); }
+    tbody tr.podium-row { background: rgba(212,160,23,0.05); }
+
+    td {
+      padding: 0.8rem 0.75rem;
+      font-size: 0.88rem;
+      vertical-align: middle;
+    }
+
+    td:first-child { padding-left: 1.25rem; }
+    td.r           { text-align: right; padding-right: 1.25rem; }
+    td.c           { text-align: center; }
+
+    .rank-num {
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--muted);
+      width: 1.8rem;
+      display: inline-block;
+    }
+
+    .rank-num.gold   { color: var(--gold); }
+    .rank-num.silver { color: var(--silver); }
+    .rank-num.bronze { color: var(--bronze); }
+
+    .t-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.5rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      line-height: 1.1;
+      text-align: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .tb-mercedes    { background: #003d35; color: #00D7B6; border: 1.5px solid #00D7B6; }
+    .tb-ferrari     { background: #5c000a; color: #fff;    border: 1.5px solid #ED1131; }
+    .tb-redbull     { background: #0d1a4a; color: #4781D7; border: 1.5px solid #4781D7; }
+    .tb-mclaren     { background: #4a2200; color: #FF8000; border: 1.5px solid #FF8000; }
+    .tb-alpine      { background: #420028; color: #FF87BC; border: 1.5px solid #FF87BC; }
+    .tb-williams    { background: #002040; color: #64C4FF; border: 1.5px solid #64C4FF; }
+    .tb-audi        { background: #300000; color: #ff6060; border: 1.5px solid #C00000; }
+    .tb-haas        { background: #222;    color: #ccc;    border: 1.5px solid #888; }
+    .tb-rb          { background: #0d1840; color: #6692FF; border: 1.5px solid #6692FF; }
+    .tb-cadillac    { background: #1e1900; color: #C0A000; border: 1.5px solid #C0A000; }
+    .tb-astonmartin { background: #062e1d; color: #229971; border: 1.5px solid #229971; }
+
+    .d-col { display: flex; align-items: center; gap: 0.7rem; }
+    .d-col .d-texts .d-n { font-weight: 600; }
+    .d-col .d-texts .d-t { font-size: 0.72rem; color: var(--muted); }
+
+    .grid-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.06);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .grid-box.pole { background: rgba(212,160,23,0.2); color: var(--gold); }
+
+    .qt-cell {
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .bar-cell { width: 160px; }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .bar-bg {
+      flex: 1;
+      height: 5px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+    }
+
+    .bar-pct {
+      font-size: 0.78rem;
+      font-weight: 700;
+      min-width: 3.5rem;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .podium-row .bar-fill { background: linear-gradient(90deg, var(--gold), #ff9900); }
+    .bar-fill.normal { background: linear-gradient(90deg, #5566cc, #8899ff); }
+
+    /* ── MODEL NOTE ─────────────────────────────────────── */
+    .model-note {
+      margin-top: 2rem;
+      padding: 1rem 1.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--red);
+      border-radius: 0 8px 8px 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .model-note strong { color: var(--text); }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding-bottom: 2rem;
+    }
+
+    footer .dot { margin: 0 0.5rem; opacity: 0.4; }
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .podium-wrap { gap: 0.4rem; }
+      .p-card { padding: 1rem 0.6rem 0.9rem; }
+      .p-card .d-prob { font-size: 1.2rem; }
+      .p-card .d-name { font-size: 0.9rem; }
+      .logo-ring { width: 48px; height: 48px; }
+      .logo-inner { width: 42px; height: 42px; }
+      td, th { padding-left: 0.5rem; padding-right: 0.5rem; }
+      .bar-cell { width: 100px; }
+      .qt-cell { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────────────── -->
+<header>
+  <div class="header-eyebrow">Round 7 &nbsp;·&nbsp; Circuit de Barcelona-Catalunya &nbsp;·&nbsp; 2026</div>
+  <div class="header-title">Spain Grand Prix</div>
+  <div class="header-sub">Podium Prediction &nbsp;·&nbsp; XGBoost Model</div>
+</header>
+
+<div class="container">
+
+  <!-- ── PODIUM SECTION ──────────────────────────────────── -->
+  <div class="section-label"><span>Predicted Podium</span></div>
+
+  <div class="podium-wrap">
+
+    <!-- P2 -->
+    <div class="podium-col">
+      <div class="p-card card-ferrari">
+        <div class="pos-badge pos-p2">2</div>
+        <div class="logo-ring team-ferrari">
+          <div class="logo-inner">FER<br>RARI</div>
+        </div>
+        <div class="car-num">#44</div>
+        <div class="d-name">Lewis Hamilton</div>
+        <div class="d-team">Scuderia Ferrari</div>
+        <div class="d-quali">Grid P2 &nbsp;·&nbsp; 1:14.743</div>
+      </div>
+      <div class="p-step p2-step">P2</div>
+    </div>
+
+    <!-- P1 -->
+    <div class="podium-col">
+      <div class="p-card card-mercedes">
+        <div class="pos-badge pos-p1">1</div>
+        <div class="logo-ring team-mercedes">
+          <div class="logo-inner">MER<br>CEDES</div>
+        </div>
+        <div class="car-num">#12</div>
+        <div class="d-name">Kimi Antonelli</div>
+        <div class="d-team">Mercedes AMG</div>
+        <div class="d-quali">Grid P3 &nbsp;·&nbsp; 1:14.998</div>
+      </div>
+      <div class="p-step p1-step">P1</div>
+    </div>
+
+    <!-- P3 -->
+    <div class="podium-col">
+      <div class="p-card card-mercedes">
+        <div class="pos-badge pos-p3">3</div>
+        <div class="logo-ring team-mercedes">
+          <div class="logo-inner">MER<br>CEDES</div>
+        </div>
+        <div class="car-num">#63</div>
+        <div class="d-name">George Russell</div>
+        <div class="d-team">Mercedes AMG</div>
+        <div class="d-quali">Grid P1 &nbsp;·&nbsp; 1:14.679</div>
+      </div>
+      <div class="p-step p3-step">P3</div>
+    </div>
+
+  </div><!-- /podium-wrap -->
+
+  <!-- ── FULL RANKING TABLE ──────────────────────────────── -->
+  <div class="section-label"><span>Full Driver Ranking</span></div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Driver</th>
+          <th class="c">Grid</th>
+          <th class="c">Qual Time</th>
+          <th class="r">P(podium)</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr class="podium-row">
+          <td><span class="rank-num gold">1</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-mercedes">MER</div>
+              <div class="d-texts">
+                <div class="d-n">Kimi Antonelli</div>
+                <div class="d-t">Mercedes &nbsp;#12</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">3</span></td>
+          <td class="c qt-cell">1:14.998</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill" style="width:100%;background:linear-gradient(90deg,#d4a017,#ff9900)"></div></div>
+              <span class="bar-pct" style="color:#d4a017">95.4%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="podium-row">
+          <td><span class="rank-num silver">2</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-ferrari">FER</div>
+              <div class="d-texts">
+                <div class="d-n">Lewis Hamilton</div>
+                <div class="d-t">Ferrari &nbsp;#44</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">2</span></td>
+          <td class="c qt-cell">1:14.743</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill" style="width:82.0%;background:linear-gradient(90deg,#d4a017,#ff9900)"></div></div>
+              <span class="bar-pct" style="color:#d4a017">78.2%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="podium-row">
+          <td><span class="rank-num bronze">3</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-mercedes">MER</div>
+              <div class="d-texts">
+                <div class="d-n">George Russell</div>
+                <div class="d-t">Mercedes &nbsp;#63</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box pole">1</span></td>
+          <td class="c qt-cell">1:14.679</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill" style="width:59.3%;background:linear-gradient(90deg,#d4a017,#ff9900)"></div></div>
+              <span class="bar-pct" style="color:#d4a017">56.5%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">4</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-ferrari">FER</div>
+              <div class="d-texts">
+                <div class="d-n">Charles Leclerc</div>
+                <div class="d-t">Ferrari &nbsp;#16</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">10</span></td>
+          <td class="c qt-cell">N/A</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:38.6%"></div></div>
+              <span class="bar-pct">36.8%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">5</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-mclaren">MCL</div>
+              <div class="d-texts">
+                <div class="d-n">Oscar Piastri</div>
+                <div class="d-t">McLaren &nbsp;#81</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">7</span></td>
+          <td class="c qt-cell">1:15.090</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:26.7%"></div></div>
+              <span class="bar-pct">25.5%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">6</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-redbull">RBR</div>
+              <div class="d-texts">
+                <div class="d-n">Max Verstappen</div>
+                <div class="d-t">Red Bull &nbsp;#3</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">5</span></td>
+          <td class="c qt-cell">1:15.021</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:17.1%"></div></div>
+              <span class="bar-pct">16.3%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">7</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-mclaren">MCL</div>
+              <div class="d-texts">
+                <div class="d-n">Lando Norris</div>
+                <div class="d-t">McLaren &nbsp;#1</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">4</span></td>
+          <td class="c qt-cell">1:15.001</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:6.1%"></div></div>
+              <span class="bar-pct">5.8%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">8</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-alpine">ALP</div>
+              <div class="d-texts">
+                <div class="d-n">Pierre Gasly</div>
+                <div class="d-t">Alpine &nbsp;#10</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">14</span></td>
+          <td class="c qt-cell">1:16.261</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:4.9%"></div></div>
+              <span class="bar-pct">4.7%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">9</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-cadillac">CAD</div>
+              <div class="d-texts">
+                <div class="d-n">Valtteri Bottas</div>
+                <div class="d-t">Cadillac &nbsp;#77</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">20</span></td>
+          <td class="c qt-cell">1:17.757</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:4.5%"></div></div>
+              <span class="bar-pct">4.3%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">10</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-cadillac">CAD</div>
+              <div class="d-texts">
+                <div class="d-n">Sergio Perez</div>
+                <div class="d-t">Cadillac &nbsp;#11</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">19</span></td>
+          <td class="c qt-cell">1:17.545</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:4.3%"></div></div>
+              <span class="bar-pct">4.1%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">11</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-audi">AUD</div>
+              <div class="d-texts">
+                <div class="d-n">Nico Hulkenberg</div>
+                <div class="d-t">Audi &nbsp;#27</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">9</span></td>
+          <td class="c qt-cell">1:16.657</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:4.0%"></div></div>
+              <span class="bar-pct">3.9%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">12</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-haas">HAS</div>
+              <div class="d-texts">
+                <div class="d-n">Oliver Bearman</div>
+                <div class="d-t">Haas &nbsp;#87</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">15</span></td>
+          <td class="c qt-cell">1:16.389</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:4.0%"></div></div>
+              <span class="bar-pct">3.9%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">13</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-astonmartin">AMR</div>
+              <div class="d-texts">
+                <div class="d-n">Lance Stroll</div>
+                <div class="d-t">Aston Martin &nbsp;#18</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">21</span></td>
+          <td class="c qt-cell">1:18.758</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:3.4%"></div></div>
+              <span class="bar-pct">3.2%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">14</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-rb">RB</div>
+              <div class="d-texts">
+                <div class="d-n">Liam Lawson</div>
+                <div class="d-t">Racing Bulls &nbsp;#30</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">8</span></td>
+          <td class="c qt-cell">1:16.542</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:3.2%"></div></div>
+              <span class="bar-pct">3.1%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">15</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-redbull">RBR</div>
+              <div class="d-texts">
+                <div class="d-n">Isack Hadjar</div>
+                <div class="d-t">Red Bull &nbsp;#6</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">6</span></td>
+          <td class="c qt-cell">1:15.077</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:2.8%"></div></div>
+              <span class="bar-pct">2.7%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">16</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-alpine">ALP</div>
+              <div class="d-texts">
+                <div class="d-n">Franco Colapinto</div>
+                <div class="d-t">Alpine &nbsp;#43</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">13</span></td>
+          <td class="c qt-cell">1:16.191</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:2.7%"></div></div>
+              <span class="bar-pct">2.6%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">17</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-astonmartin">AMR</div>
+              <div class="d-texts">
+                <div class="d-n">Fernando Alonso</div>
+                <div class="d-t">Aston Martin &nbsp;#14</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">22</span></td>
+          <td class="c qt-cell">1:18.815</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:2.7%"></div></div>
+              <span class="bar-pct">2.6%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">18</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-audi">AUD</div>
+              <div class="d-texts">
+                <div class="d-n">Gabriel Bortoleto</div>
+                <div class="d-t">Audi &nbsp;#5</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">12</span></td>
+          <td class="c qt-cell">1:16.001</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:2.6%"></div></div>
+              <span class="bar-pct">2.5%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">19</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-williams">WIL</div>
+              <div class="d-texts">
+                <div class="d-n">Alexander Albon</div>
+                <div class="d-t">Williams &nbsp;#23</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">18</span></td>
+          <td class="c qt-cell">1:17.424</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:2.4%"></div></div>
+              <span class="bar-pct">2.3%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">20</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-rb">RB</div>
+              <div class="d-texts">
+                <div class="d-n">Arvid Lindblad</div>
+                <div class="d-t">Racing Bulls &nbsp;#41</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">11</span></td>
+          <td class="c qt-cell">1:15.840</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:2.4%"></div></div>
+              <span class="bar-pct">2.3%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">21</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-haas">HAS</div>
+              <div class="d-texts">
+                <div class="d-n">Esteban Ocon</div>
+                <div class="d-t">Haas &nbsp;#31</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">17</span></td>
+          <td class="c qt-cell">1:17.073</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:2.4%"></div></div>
+              <span class="bar-pct">2.3%</span>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="rank-num">22</span></td>
+          <td>
+            <div class="d-col">
+              <div class="t-badge tb-williams">WIL</div>
+              <div class="d-texts">
+                <div class="d-n">Carlos Sainz Jr.</div>
+                <div class="d-t">Williams &nbsp;#55</div>
+              </div>
+            </div>
+          </td>
+          <td class="c"><span class="grid-box">16</span></td>
+          <td class="c qt-cell">1:17.827</td>
+          <td class="r bar-cell">
+            <div class="bar-row">
+              <div class="bar-bg"><div class="bar-fill normal" style="width:2.4%"></div></div>
+              <span class="bar-pct">2.3%</span>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div><!-- /table-wrap -->
+
+  <!-- ── MODEL NOTE ─────────────────────────────────────── -->
+  <div class="model-note">
+    <strong>Model:</strong> XGBoost binary classifier trained on 6 race weekends (R01–R06, 132 rows, 22 features).
+    Probabilities represent P(top-3 finish). The Spain prediction uses <strong>actual qualifying positions</strong>
+    as grid input. Top features: <em>avg_race_position</em> (dominant), <em>GridPosition</em>, <em>driver_encoded</em>.
+    Train ROC-AUC 0.999 &nbsp;·&nbsp; Leclerc qual time N/A (no Q3 lap set).
+  </div>
+
+  <footer>
+    Spain GP 2026 <span class="dot">·</span> XGBoost Prediction <span class="dot">·</span> Trained on FastF1 Data
+  </footer>
+
+</div><!-- /container -->
+</body>
+</html>

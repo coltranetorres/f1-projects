@@ -1,0 +1,23 @@
+DriverNumber,BroadcastName,Abbreviation,DriverId,TeamName,TeamColor,TeamId,FirstName,LastName,FullName,HeadshotUrl,CountryCode,Position,ClassifiedPosition,GridPosition,Q1,Q2,Q3,Time,Status,Points,Laps
+44,L HAMILTON,HAM,hamilton,Ferrari,ED1131,ferrari,Lewis,Hamilton,Lewis Hamilton,,,1.0,1,2.0,,,,0 days 01:32:28.105000,Finished,25.0,66.0
+63,G RUSSELL,RUS,russell,Mercedes,00D7B6,mercedes,George,Russell,George Russell,,,2.0,2,1.0,,,,0 days 00:00:19.561000,Finished,18.0,66.0
+1,L NORRIS,NOR,norris,McLaren,F47600,mclaren,Lando,Norris,Lando Norris,,,3.0,3,4.0,,,,0 days 00:00:23.719000,Finished,15.0,66.0
+3,M VERSTAPPEN,VER,max_verstappen,Red Bull Racing,4781D7,red_bull,Max,Verstappen,Max Verstappen,,,4.0,4,5.0,,,,0 days 00:00:40.497000,Finished,12.0,66.0
+81,O PIASTRI,PIA,piastri,McLaren,F47600,mclaren,Oscar,Piastri,Oscar Piastri,,,5.0,5,7.0,,,,0 days 00:00:58.661000,Finished,10.0,66.0
+6,I HADJAR,HAD,hadjar,Red Bull Racing,4781D7,red_bull,Isack,Hadjar,Isack Hadjar,,,6.0,6,6.0,,,,, Lapped,8.0,65.0
+10,P GASLY,GAS,gasly,Alpine,00A1E8,alpine,Pierre,Gasly,Pierre Gasly,,,7.0,7,14.0,,,,,Lapped,6.0,65.0
+30,L LAWSON,LAW,lawson,Racing Bulls,6C98FF,rb,Liam,Lawson,Liam Lawson,,,8.0,8,8.0,,,,,Lapped,4.0,65.0
+41,A LINDBLAD,LIN,arvid_lindblad,Racing Bulls,6C98FF,rb,Arvid,Lindblad,Arvid Lindblad,,,9.0,9,11.0,,,,,Lapped,2.0,65.0
+43,F COLAPINTO,COL,colapinto,Alpine,00A1E8,alpine,Franco,Colapinto,Franco Colapinto,,,10.0,10,13.0,,,,,Lapped,1.0,65.0
+5,G BORTOLETO,BOR,bortoleto,Audi,F50537,audi,Gabriel,Bortoleto,Gabriel Bortoleto,,,11.0,11,12.0,,,,,Lapped,0.0,64.0
+55,C SAINZ,SAI,sainz,Williams,1868DB,williams,Carlos,Sainz,Carlos Sainz,,,12.0,12,16.0,,,,,Lapped,0.0,64.0
+31,E OCON,OCO,ocon,Haas F1 Team,9C9FA2,haas,Esteban,Ocon,Esteban Ocon,,,13.0,13,17.0,,,,,Lapped,0.0,64.0
+11,S PEREZ,PER,perez,Cadillac,909090,cadillac,Sergio,Perez,Sergio Perez,,,14.0,14,19.0,,,,,Lapped,0.0,63.0
+16,C LECLERC,LEC,leclerc,Ferrari,ED1131,ferrari,Charles,Leclerc,Charles Leclerc,,,15.0,R,10.0,,,,,Retired,0.0,55.0
+12,K ANTONELLI,ANT,antonelli,Mercedes,00D7B6,mercedes,Kimi,Antonelli,Kimi Antonelli,,,16.0,R,3.0,,,,,Retired,0.0,50.0
+87,O BEARMAN,BEA,bearman,Haas F1 Team,9C9FA2,haas,Oliver,Bearman,Oliver Bearman,,,17.0,R,15.0,,,,,Retired,0.0,45.0
+23,A ALBON,ALB,albon,Williams,1868DB,williams,Alexander,Albon,Alexander Albon,,,18.0,R,18.0,,,,,Retired,0.0,40.0
+14,F ALONSO,ALO,alonso,Aston Martin,229971,aston_martin,Fernando,Alonso,Fernando Alonso,,,19.0,R,22.0,,,,,Retired,0.0,35.0
+27,N HULKENBERG,HUL,hulkenberg,Audi,F50537,audi,Nico,Hulkenberg,Nico Hulkenberg,,,20.0,R,9.0,,,,,Retired,0.0,30.0
+77,V BOTTAS,BOT,bottas,Cadillac,909090,cadillac,Valtteri,Bottas,Valtteri Bottas,,,21.0,R,20.0,,,,,Retired,0.0,20.0
+18,L STROLL,STR,stroll,Aston Martin,229971,aston_martin,Lance,Stroll,Lance Stroll,,,22.0,R,21.0,,,,,Retired,0.0,10.0
