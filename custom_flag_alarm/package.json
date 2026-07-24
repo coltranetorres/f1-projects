@@ -1,0 +1,49 @@
+{
+  "name": "f1-break-reminder",
+  "displayName": "F1 Break Reminder",
+  "description": "Local F1-style break reminder: green/yellow/red flag based on how long you've been coding.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "private": true,
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./src/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "f1BreakReminder",
+          "title": "F1 Break Reminder",
+          "icon": "media/flag-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "f1BreakReminder": [
+        {
+          "type": "webview",
+          "id": "f1BreakReminder.flagView",
+          "name": "Flag Status"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "F1 Break Reminder",
+      "properties": {
+        "breakReminder.yellowThresholdMinutes": {
+          "type": "number",
+          "default": 60,
+          "description": "Minutes of coding before the flag turns yellow."
+        },
+        "breakReminder.redThresholdMinutes": {
+          "type": "number",
+          "default": 90,
+          "description": "Minutes of coding before the flag turns red and the alarm sound plays."
+        }
+      }
+    }
+  }
+}

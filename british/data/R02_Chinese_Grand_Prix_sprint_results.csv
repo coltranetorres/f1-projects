@@ -1,0 +1,23 @@
+DriverNumber,BroadcastName,Abbreviation,DriverId,TeamName,TeamColor,TeamId,FirstName,LastName,FullName,CountryCode,Position,ClassifiedPosition,GridPosition,Time,Status,Points,Laps
+63,G RUSSELL,RUS,russell,Mercedes,00D7B6,mercedes,George,Russell,George Russell,,1.0,1,1.0,0 days 00:33:38.998000,Finished,8.0,19.0
+16,C LECLERC,LEC,leclerc,Ferrari,ED1131,ferrari,Charles,Leclerc,Charles Leclerc,,2.0,2,6.0,0 days 00:00:00.674000,Finished,7.0,19.0
+44,L HAMILTON,HAM,hamilton,Ferrari,ED1131,ferrari,Lewis,Hamilton,Lewis Hamilton,,3.0,3,4.0,0 days 00:00:02.554000,Finished,6.0,19.0
+1,L NORRIS,NOR,norris,McLaren,F47600,mclaren,Lando,Norris,Lando Norris,,4.0,4,3.0,0 days 00:00:04.433000,Finished,5.0,19.0
+12,K ANTONELLI,ANT,antonelli,Mercedes,00D7B6,mercedes,Kimi,Antonelli,Kimi Antonelli,,5.0,5,2.0,0 days 00:00:05.688000,Finished,4.0,19.0
+81,O PIASTRI,PIA,piastri,McLaren,F47600,mclaren,Oscar,Piastri,Oscar Piastri,,6.0,6,5.0,0 days 00:00:06.809000,Finished,3.0,19.0
+30,L LAWSON,LAW,lawson,Racing Bulls,6C98FF,rb,Liam,Lawson,Liam Lawson,,7.0,7,13.0,0 days 00:00:10.900000,Finished,2.0,19.0
+87,O BEARMAN,BEA,bearman,Haas F1 Team,9C9FA2,haas,Oliver,Bearman,Oliver Bearman,,8.0,8,9.0,0 days 00:00:11.271000,Finished,1.0,19.0
+3,M VERSTAPPEN,VER,max_verstappen,Red Bull Racing,4781D7,red_bull,Max,Verstappen,Max Verstappen,,9.0,9,8.0,0 days 00:00:11.619000,Finished,0.0,19.0
+31,E OCON,OCO,ocon,Haas F1 Team,9C9FA2,haas,Esteban,Ocon,Esteban Ocon,,10.0,10,12.0,0 days 00:00:13.887000,Finished,0.0,19.0
+10,P GASLY,GAS,gasly,Alpine,00A1E8,alpine,Pierre,Gasly,Pierre Gasly,,11.0,11,7.0,0 days 00:00:14.780000,Finished,0.0,19.0
+55,C SAINZ,SAI,sainz,Williams,1868DB,williams,Carlos,Sainz,Carlos Sainz,,12.0,12,17.0,0 days 00:00:15.753000,Finished,0.0,19.0
+5,G BORTOLETO,BOR,bortoleto,Audi,F50537,audi,Gabriel,Bortoleto,Gabriel Bortoleto,,13.0,13,14.0,0 days 00:00:15.858000,Finished,0.0,19.0
+43,F COLAPINTO,COL,colapinto,Alpine,00A1E8,alpine,Franco,Colapinto,Franco Colapinto,,14.0,14,16.0,0 days 00:00:16.393000,Finished,0.0,19.0
+6,I HADJAR,HAD,hadjar,Red Bull Racing,4781D7,red_bull,Isack,Hadjar,Isack Hadjar,,15.0,15,10.0,0 days 00:00:16.430000,Finished,0.0,19.0
+23,A ALBON,ALB,albon,Williams,1868DB,williams,Alexander,Albon,Alexander Albon,,16.0,16,22.0,0 days 00:00:20.014000,Finished,0.0,19.0
+14,F ALONSO,ALO,alonso,Aston Martin,229971,aston_martin,Fernando,Alonso,Fernando Alonso,,17.0,17,18.0,0 days 00:00:21.599000,Finished,0.0,19.0
+18,L STROLL,STR,stroll,Aston Martin,229971,aston_martin,Lance,Stroll,Lance Stroll,,18.0,18,19.0,0 days 00:00:21.971000,Finished,0.0,19.0
+11,S PEREZ,PER,perez,Cadillac,909090,cadillac,Sergio,Perez,Sergio Perez,,19.0,19,21.0,0 days 00:00:28.241000,Finished,0.0,19.0
+27,N HULKENBERG,HUL,hulkenberg,Audi,F50537,audi,Nico,Hulkenberg,Nico Hulkenberg,,20.0,R,11.0,NaT,Retired,0.0,12.0
+77,V BOTTAS,BOT,bottas,Cadillac,909090,cadillac,Valtteri,Bottas,Valtteri Bottas,,21.0,R,20.0,NaT,Retired,0.0,12.0
+41,A LINDBLAD,LIN,arvid_lindblad,Racing Bulls,6C98FF,rb,Arvid,Lindblad,Arvid Lindblad,,22.0,R,15.0,NaT,Retired,0.0,11.0
