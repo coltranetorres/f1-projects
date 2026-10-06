@@ -7,7 +7,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report, accuracy_score, roc_auc_score
 import shap
 
-DATA_DIR = Path(__file__).parent / "data"
+DATA_DIR = Path(__file__).parent.parent / "data_pred" / "data"
 
 # ── 1. LOAD & MERGE ──────────────────────────────────────────────────────────
 

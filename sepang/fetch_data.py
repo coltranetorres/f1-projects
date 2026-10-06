@@ -2,7 +2,7 @@ import fastf1
 import pandas as pd
 from pathlib import Path
 
-DATA_DIR = Path(__file__).parent / "data"
+DATA_DIR = Path(__file__).parent.parent / "data_pred" / "data"
 DATA_DIR.mkdir(exist_ok=True)
 
 cache_dir = Path(__file__).parent / "cache"

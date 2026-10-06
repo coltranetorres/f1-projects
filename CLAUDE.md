@@ -12,11 +12,11 @@ Dependencies are managed with `uv` (Python >= 3.13):
 
 ```bash
 uv sync                            # install all dependencies
-uv run python {gp}/fetch_data.py   # fetch race data from FastF1 API → {gp}/data/
+uv run python {gp}/fetch_data.py   # fetch race data from FastF1 API → data_pred/data/
 uv run python {gp}/model.py        # train model + print podium prediction
 ```
 
-Each target GP has its own directory (e.g. `monaco/`, `hungary/`, `monza/`, etc.) containing `fetch_data.py`, `model.py`, `data/`, `cache/`, and (once a prediction has been made) `podium.html`.
+Race and qualifying CSVs for all rounds live in the shared `data_pred/data/`. Each target GP has its own directory (e.g. `monaco/`, `hungary/`, `monza/`, etc.) containing `fetch_data.py`, `model.py`, `cache/`, and (once a prediction has been made) `podium.html`.
 
 ## Workflow for a New Race Prediction
 
@@ -49,7 +49,7 @@ Only accurate laps (`IsAccurate == True`) are used for lap aggregation. Non-spri
 
 ### CSV Schema
 
-Results files (FastF1 format) — see any `*_results.csv` header for the exact column list (e.g. `monaco/data/R05_Canadian_Grand_Prix_results.csv`). Notes on the non-obvious columns:
+Results files (FastF1 format) — see any `*_results.csv` header for the exact column list (e.g. `data_pred/data/R05_Canadian_Grand_Prix_results.csv`). Notes on the non-obvious columns:
 
 - `Time`: `0 days HH:MM:SS.ffffff` — full race time for winner, gap to winner for finishers, `NaT` for DNF
 - `ClassifiedPosition`: position number for finishers/lapped, `R` for retired, `W` for withdrew
@@ -57,11 +57,11 @@ Results files (FastF1 format) — see any `*_results.csv` header for the exact c
 - `Status`: `Finished`, `Lapped`, or `Retired`
 - Sprint result files use the same schema
 
-When creating a manual results CSV, use existing files (e.g. `monaco/data/R05_Canadian_Grand_Prix_results.csv`) as a reference for team colours, driver IDs, and headshot URL patterns.
+When creating a manual results CSV, use existing files (e.g. `data_pred/data/R05_Canadian_Grand_Prix_results.csv`) as a reference for team colours, driver IDs, and headshot URL patterns.
 
 ## Current Season State (2026)
 
 - Completed races: R01 Australia, R02 China (sprint), R03 Japan, R04 Miami (sprint), R05 Canada (sprint), R06 Monaco, R07 Spain (Barcelona), R08 Austria, R09 Britain (sprint), R10 Belgium, R11 Hungary, R12 Netherlands (Dutch GP), R13 Italy (Monza), R14 Spain (Madrid/"madring"), R15 Azerbaijan
 - Sprint rounds: {2, 4, 5, 9}
-- Next target: Malaysian GP / Sepang (Round 16, FastF1 schedule name "Bahrain Grand Prix") — qualifying data already in `sepang/data/`
+- Next target: Malaysian GP / Sepang (Round 16, FastF1 schedule name "Bahrain Grand Prix") — qualifying data already in `data_pred/data/`
 - Training set grows by 22 rows with each completed race (330 rows as of R15); model quality improves as dataset expands
