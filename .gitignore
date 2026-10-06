@@ -34,3 +34,9 @@ ffmpeg_extract/
 
 # Node
 node_modules/
+
+# Git worktrees
+.worktrees/
+
+# Rendered videos (regenerate locally)
+*.mp4

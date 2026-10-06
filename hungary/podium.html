@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hungarian GP 2026 — Podium Prediction</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b12;
+      --card: #13131f;
+      --border: #252535;
+      --text: #eeeef8;
+      --muted: #7878a0;
+      --red: #e10600;
+      --gold: #d4a017;
+      --silver: #9ea0a3;
+      --bronze: #c07022;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: #000;
+      height: 100%;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Exo 2', system-ui, sans-serif;
+    }
+
+    /* ── FIXED PORTRAIT FRAME (1080x1920 @ 0.5 scale = 540x960 CSS px) ── */
+    .frame {
+      position: relative;
+      width: 540px;
+      height: 960px;
+      background: radial-gradient(120% 90% at 50% -10%, #1a0408 0%, var(--bg) 55%);
+      color: var(--text);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .frame::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: repeating-linear-gradient(90deg, #fff 0px, #fff 8px, #000 8px, #000 16px);
+      opacity: 0.15;
+    }
+
+    .frame::after {
+      content: '';
+      position: absolute;
+      top: 6px; left: 0; right: 0;
+      height: 3px;
+      background: var(--red);
+    }
+
+    /* ── HEADER ─────────────────────────────────────────── */
+    header {
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .header-eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.45em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .header-title {
+      font-size: 40px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      line-height: 1.05;
+      background: linear-gradient(160deg, #ffffff 30%, #aaaacc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-sub {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    .section-label {
+      margin-top: 56px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ── PODIUM ─────────────────────────────────────────── */
+    .podium-wrap {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 14px;
+      padding: 32px 22px 0;
+    }
+
+    .podium-col {
+      flex: 1;
+      max-width: 165px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .p-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 16px 16px 0 0;
+      padding: 22px 12px 18px;
+      text-align: center;
+      position: relative;
+    }
+
+    .p-card::after {
+      content: '';
+      position: absolute;
+      top: -1px; left: 0; right: 0;
+      height: 5px;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .logo-ring {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-inner {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-align: center;
+      line-height: 1.15;
+    }
+
+    .team-mercedes  { background: #001f1a; border: 2px solid #00D7B6; }
+    .team-mercedes  .logo-inner { background: linear-gradient(135deg, #005a4e, #003d35); color: #00D7B6; }
+
+    .team-ferrari   { background: #1f0003; border: 2px solid #ED1131; }
+    .team-ferrari   .logo-inner { background: linear-gradient(135deg, #8b000f, #5c000a); color: #fff; }
+
+    .card-mercedes::after { background: #00D7B6; }
+    .card-ferrari::after  { background: #ED1131; }
+
+    .p-card .car-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      margin-bottom: 5px;
+    }
+
+    .p-card .d-name {
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .p-card .d-team {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .p-card .d-quali {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 10px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .p-card .d-prob {
+      font-size: 26px;
+      font-weight: 900;
+      margin-top: 11px;
+      letter-spacing: -0.02em;
+    }
+
+    .p-card .d-prob-label {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .p-step {
+      border-radius: 0 0 12px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 900;
+      color: rgba(0,0,0,0.55);
+      letter-spacing: 0.1em;
+    }
+
+    .p1-step { height: 150px; background: linear-gradient(180deg, #c9a227 0%, #7a6010 100%); }
+    .p2-step { height: 104px; background: linear-gradient(180deg, #9ea0a3 0%, #5a5c60 100%); }
+    .p3-step { height: 70px;  background: linear-gradient(180deg, #c07022 0%, #6b3a10 100%); }
+
+    .pos-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .pos-p1 { background: var(--gold);   color: #000; }
+    .pos-p2 { background: var(--silver); color: #000; }
+    .pos-p3 { background: var(--bronze); color: #000; }
+
+    footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 56px;
+    }
+
+    footer .dot { margin: 0 0.5rem; opacity: 0.4; }
+  </style>
+</head>
+<body>
+
+<div class="frame">
+
+  <header>
+    <div class="header-eyebrow">Round 11 · Hungaroring · 2026</div>
+    <div class="header-title">Hungarian GP</div>
+    <div class="header-sub">XGBoost Podium Prediction</div>
+  </header>
+
+  <div class="section-label">Predicted Podium</div>
+
+  <div class="podium-wrap">
+
+    <!-- P2 -->
+    <div class="podium-col">
+      <div class="p-card card-mercedes">
+        <div class="pos-badge pos-p2">2</div>
+        <div class="logo-ring team-mercedes">
+          <div class="logo-inner">MER<br>CEDES</div>
+        </div>
+        <div class="car-num">#63</div>
+        <div class="d-name">George Russell</div>
+        <div class="d-team">Mercedes AMG</div>
+        <div class="d-quali">Grid P6 &nbsp;·&nbsp; 1:17.760</div>
+        <div style="margin-top: 11px;">
+          <div class="d-prob-label">P(podium)</div>
+          <div class="d-prob" style="color: #00D7B6;">91.8%</div>
+        </div>
+      </div>
+      <div class="p-step p2-step">P2</div>
+    </div>
+
+    <!-- P1 -->
+    <div class="podium-col">
+      <div class="p-card card-mercedes">
+        <div class="pos-badge pos-p1">1</div>
+        <div class="logo-ring team-mercedes">
+          <div class="logo-inner">MER<br>CEDES</div>
+        </div>
+        <div class="car-num">#12</div>
+        <div class="d-name">Kimi Antonelli</div>
+        <div class="d-team">Mercedes AMG</div>
+        <div class="d-quali">Grid P7 &nbsp;·&nbsp; 1:17.479</div>
+        <div style="margin-top: 11px;">
+          <div class="d-prob-label">P(podium)</div>
+          <div class="d-prob" style="color: #00D7B6;">92.1%</div>
+        </div>
+      </div>
+      <div class="p-step p1-step">P1</div>
+    </div>
+
+    <!-- P3 -->
+    <div class="podium-col">
+      <div class="p-card card-ferrari">
+        <div class="pos-badge pos-p3">3</div>
+        <div class="logo-ring team-ferrari">
+          <div class="logo-inner">FER<br>RARI</div>
+        </div>
+        <div class="car-num">#16</div>
+        <div class="d-name">Charles Leclerc</div>
+        <div class="d-team">Scuderia Ferrari</div>
+        <div class="d-quali">Grid P2 &nbsp;·&nbsp; 1:17.445</div>
+        <div style="margin-top: 11px;">
+          <div class="d-prob-label">P(podium)</div>
+          <div class="d-prob" style="color: #ED1131;">84.9%</div>
+        </div>
+      </div>
+      <div class="p-step p3-step">P3</div>
+    </div>
+
+  </div><!-- /podium-wrap -->
+
+  <footer>
+    Hungarian GP 2026 <span class="dot">·</span> Trained on FastF1 Data
+  </footer>
+
+</div><!-- /frame -->
+
+</body>
+</html>
