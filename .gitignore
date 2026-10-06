@@ -40,3 +40,6 @@ node_modules/
 
 # Rendered videos (regenerate locally)
 *.mp4
+
+# Superpowers design docs/plans (local only)
+docs/superpowers/
