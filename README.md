@@ -1,3 +1,5 @@
+[☕ Buy me a coffee](https://www.buymeacoffee.com/cole.codes) if you find this F1 project helpful :)
+
 # f1-projects
 
 A collection of Python (and one VS Code extension) projects built around the
