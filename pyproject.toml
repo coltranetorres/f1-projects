@@ -4,18 +4,25 @@ version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.13"
 dependencies = [
+    "fastapi>=0.143.0",
     "fastf1>=3.8.3",
     "insightface>=0.7.3",
+    "langfuse>=4.17.0",
     "onnxruntime>=1.20.0",
     "opencv-python>=4.10.0",
     "playwright>=1.60.0",
+    "pydantic-ai-slim[openrouter]>=2.54.0",
+    "python-dotenv>=1.2.4",
+    "pyyaml>=6.0.3",
     "scikit-learn>=1.8.0",
     "scipy>=1.14.0",
     "shap>=0.52.0",
+    "uvicorn[standard]>=0.54.0",
     "xgboost>=3.2.0",
 ]
 
 [dependency-groups]
 dev = [
+    "httpx>=0.28.1",
     "pytest>=9.1.1",
 ]

@@ -65,3 +65,15 @@ When creating a manual results CSV, use existing files (e.g. `data_pred/data/R05
 - Sprint rounds: {2, 4, 5, 9}
 - Next target: Malaysian GP / Sepang (Round 16, FastF1 schedule name "Bahrain Grand Prix") — qualifying data already in `data_pred/data/`
 - Training set grows by 22 rows with each completed race (330 rows as of R15); model quality improves as dataset expands
+
+## Agent Harness (PoC)
+
+Read-only Q&A assistant over the Sepang prediction. Spec: `docs/superpowers/specs/2026-10-09-f1-harness-poc-design.md` (local only, gitignored).
+
+- `f1_core/` — importable pipeline extracted from `sepang/model.py` (`Predictor`); regression-tested against the script's output in `tests/fixtures/`.
+- `harness/` — Pydantic AI agent, typed read-only tools, guardrails, Langfuse tracing, `evals/` (seed cases, evaluators, `taxonomy.yaml`).
+- `api/` FastAPI (`uv run uvicorn api.main:app --port 8000`), `web/` React (`cd web && npm install` (first time), then `npm run dev`).
+- Evals: `uv run python -m harness.evals.run --model <openrouter-id> [--suite S] [--split dev|heldout|all] [--limit N]`.
+- Manual check: `uv run python -m harness.chat "question"`.
+- Secrets live in `.env` (gitignored; see `.env.example`). XGBoost needs `brew install libomp` on macOS.
+- Failure modes in `harness/evals/taxonomy.yaml` come only from inspected Langfuse traces.

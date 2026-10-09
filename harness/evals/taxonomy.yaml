@@ -1,0 +1,10 @@
+# Failure-mode taxonomy. Entries come ONLY from inspected Langfuse traces:
+#   1. open coding: read raw traces, write a free-text note on the first thing that went wrong
+#   2. cluster notes into failure modes (split any category mixing two root causes)
+#   3. classify: suite, layer, tool; add `evidence` trace ids and a binary `detector`
+#   4. write the targeted eval, fix, re-run; set status to fixed (regressed if it comes back)
+# Fields: id, name, suite, secondary_suite, layer, tool, evidence[], detector, resolution, status
+# suite: tool_use | correctness | robustness | scope | agent_loop
+# layer: tool_selection | tool_arguments | tool_implementation | grounding | interpretation
+#        | scope | loop_control | prompt
+failure_modes: []

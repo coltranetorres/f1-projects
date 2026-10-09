@@ -43,3 +43,7 @@ node_modules/
 
 # Superpowers design docs/plans (local only)
 docs/superpowers/
+
+# Secrets and JS build artifacts
+.env
+web/dist/

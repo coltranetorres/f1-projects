@@ -1,0 +1,228 @@
+Dataset      : 330 rows x 22 features
+Class counts : {0: np.int64(285), 1: np.int64(45)}  (0=non-podium, 1=podium)
+scale_pos_weight: 6.33
+
+Train: 264 rows  |  Test: 66 rows
+Train class dist: {0: np.int64(228), 1: np.int64(36)}
+Test  class dist: {0: np.int64(57), 1: np.int64(9)}
+
+Best iteration: 245
+
+=======================================================
+EVALUATION METRICS
+=======================================================
+Metric                            Train     Test
+------------------------------------------------
+Accuracy                         1.0000   0.9697
+ROC-AUC                          1.0000   0.9942
+
+Accuracy gap (train-test): 0.0303  [OK] Generalising well
+ROC-AUC  gap (train-test): 0.0058  [OK] Generalising well
+
+Classification Report (test set):
+              precision    recall  f1-score   support
+
+  Non-podium       1.00      0.96      0.98        57
+      Podium       0.82      1.00      0.90         9
+
+    accuracy                           0.97        66
+   macro avg       0.91      0.98      0.94        66
+weighted avg       0.98      0.97      0.97        66
+
+=======================================================
+PODIUM PREDICTION vs ACTUAL (TEST SET RACES)
+=======================================================
+
+  Round 1  (hit 0/3):
+    Predicted : Lando Norris, Liam Lawson, Sergio Perez
+    Actual    : ?
+
+  Round 2  (hit 1/3):
+    Predicted : Kimi Antonelli, Max Verstappen, Franco Colapinto
+    Actual    : Kimi Antonelli
+
+  Round 3  (hit 0/3):
+    Predicted : Max Verstappen, Esteban Ocon, Arvid Lindblad
+    Actual    : ?
+
+  Round 4  (hit 0/3):
+    Predicted : Max Verstappen, Franco Colapinto, Liam Lawson
+    Actual    : ?
+
+  Round 5  (hit 1/3):
+    Predicted : Lewis Hamilton, Carlos Sainz, Pierre Gasly
+    Actual    : Lewis Hamilton
+
+  Round 6  (hit 1/3):
+    Predicted : Kimi Antonelli, Charles Leclerc, Arvid Lindblad
+    Actual    : Kimi Antonelli
+
+  Round 7  (hit 0/3):
+    Predicted : Max Verstappen, Oscar Piastri, Arvid Lindblad
+    Actual    : ?
+
+  Round 8  (hit 1/3):
+    Predicted : Kimi Antonelli, Charles Leclerc, Isack Hadjar
+    Actual    : Kimi Antonelli
+
+  Round 9  (hit 1/3):
+    Predicted : Lewis Hamilton, Kimi Antonelli, Isack Hadjar
+    Actual    : Lewis Hamilton
+
+  Round 10  (hit 1/3):
+    Predicted : Charles Leclerc, Isack Hadjar, Gabriel Bortoleto
+    Actual    : Charles Leclerc
+
+  Round 11  (hit 0/3):
+    Predicted : Lewis Hamilton, George Russell
+    Actual    : ?
+
+  Round 12  (hit 0/3):
+    Predicted : Charles Leclerc, Pierre Gasly
+    Actual    : ?
+
+  Round 13  (hit 1/3):
+    Predicted : Max Verstappen, Valtteri Bottas, Fernando Alonso
+    Actual    : Max Verstappen
+
+  Round 14  (hit 1/3):
+    Predicted : Max Verstappen, Charles Leclerc, Lewis Hamilton
+    Actual    : Max Verstappen
+
+  Round 15  (hit 1/3):
+    Predicted : Isack Hadjar, Lando Norris
+    Actual    : Isack Hadjar
+
+=======================================================
+FEATURE IMPORTANCE (top 10)
+=======================================================
+  finished                  0.2667  ###############################################################################
+  GridPosition              0.1802  ######################################################
+  sprint_pos                0.1043  ###############################
+  avg_race_position         0.0856  #########################
+  positions_gained          0.0773  #######################
+  mean_s2_s                 0.0460  #############
+  team_encoded              0.0342  ##########
+  mean_s1_s                 0.0219  ######
+  mean_s3_s                 0.0218  ######
+  driver_encoded            0.0191  #####
+
+=======================================================
+SHAP FEATURE IMPORTANCE (trained model, full dataset)
+=======================================================
+
+  Feature                    Mean |SHAP|  Impact
+  ------------------------------------------------------------
+  GridPosition                    2.7945  ########################################
+  positions_gained                0.9947  ##############
+  avg_race_position               0.9855  ##############
+  team_encoded                    0.7418  ##########
+  finished                        0.4240  ######
+  max_speed_st                    0.3042  ####
+  personal_best_count             0.2452  ###
+  driver_encoded                  0.2333  ###
+  mean_s3_s                       0.1373  #
+  avg_speed_i1                    0.1142  #
+  best_lap_s                      0.1040  #
+  mean_lap_s                      0.1022  #
+  lap_consistency                 0.0957  #
+  mean_s1_s                       0.0900  #
+  mean_s2_s                       0.0676  
+  avg_speed_i2                    0.0541  
+  avg_speed_fl                    0.0335  
+  sprint_pos                      0.0177  
+  num_stints                      0.0161  
+  sprint_points                   0.0000  
+  sprint_grid                     0.0000  
+  has_sprint                      0.0000  
+
+=======================================================
+SEPANG GP (ROUND 16) - RETRAIN ON ALL DATA & PREDICT
+=======================================================
+
+  PREDICTED SEPANG GP PODIUM:
+  Pos    Driver                    Team                    Grid   Qual Time  P(podium)
+  -----------------------------------------------------------------------------------
+  P1     Max Verstappen            Red Bull Racing            1     95.130s     0.9957
+  P2     Kimi Antonelli            Mercedes                   4     95.631s     0.9886
+  P3     Lewis Hamilton            Ferrari                    2     95.428s     0.9595
+
+  Full driver ranking by podium probability:
+  Rank  Driver                    Team                    Grid   Qual Time  P(podium)
+  -----------------------------------------------------------------------------------
+  1     Max Verstappen            Red Bull Racing            1     95.130s     0.9957 <-- podium
+  2     Kimi Antonelli            Mercedes                   4     95.631s     0.9886 <-- podium
+  3     Lewis Hamilton            Ferrari                    2     95.428s     0.9595 <-- podium
+  4     Isack Hadjar              Red Bull Racing            3     95.558s     0.9544
+  5     Lando Norris              McLaren                    6     95.757s     0.0860
+  6     George Russell            Mercedes                   8     95.871s     0.0781
+  7     Oscar Piastri             McLaren                    7     95.762s     0.0620
+  8     Charles Leclerc           Ferrari                    5     95.666s     0.0535
+  9     Liam Lawson               Racing Bulls              11     97.023s     0.0028
+  10    Carlos Sainz              Williams                  13     97.527s     0.0022
+  11    Alexander Albon           Williams                  20     98.600s     0.0022
+  12    Arvid Lindblad            Racing Bulls              16     97.883s     0.0020
+  13    Lance Stroll              Aston Martin              14     97.566s     0.0008
+  14    Oliver Bearman            Haas F1 Team              18     97.980s     0.0007
+  15    Valtteri Bottas           Cadillac                  21     98.611s     0.0007
+  16    Pierre Gasly              Alpine                     9     97.210s     0.0006
+  17    Nico Hulkenberg           Audi                      17     97.970s     0.0006
+  18    Sergio Perez              Cadillac                  22     98.933s     0.0006
+  19    Esteban Ocon              Haas F1 Team              19     98.233s     0.0006
+  20    Fernando Alonso           Aston Martin              12     97.220s     0.0005
+  21    Gabriel Bortoleto         Audi                      10     97.673s     0.0005
+  22    Franco Colapinto          Alpine                    15     97.179s     0.0005
+
+=======================================================
+SHAP BREAKDOWN - TOP 4 SEPANG GP CONTENDERS
+=======================================================
+(positive SHAP = pushes toward podium, negative = away)
+
+  Max Verstappen (Red Bull Racing)  -  P(podium)=0.9957
+  Feature                       SHAP  Direction
+  --------------------------------------------------
+  GridPosition                3.6343  + ####################
+  avg_race_position           0.7316  + ####
+  team_encoded                0.6934  + ###
+  driver_encoded              0.2244  + #
+  avg_speed_i1               -0.2124  - #
+  finished                    0.2041  + #
+  max_speed_st                0.1760  + 
+  mean_s1_s                   0.1596  + 
+
+  Kimi Antonelli (Mercedes)  -  P(podium)=0.9886
+  Feature                       SHAP  Direction
+  --------------------------------------------------
+  GridPosition                2.7589  + ####################
+  avg_race_position           1.0512  + #######
+  team_encoded                0.5688  + ####
+  positions_gained           -0.2169  - #
+  finished                    0.2039  + #
+  max_speed_st                0.1650  + #
+  personal_best_count        -0.1500  - #
+  driver_encoded              0.1428  + #
+
+  Lewis Hamilton (Ferrari)  -  P(podium)=0.9595
+  Feature                       SHAP  Direction
+  --------------------------------------------------
+  GridPosition                3.6129  + ####################
+  team_encoded               -1.2372  - ######
+  avg_race_position           0.7597  + ####
+  personal_best_count        -0.2252  - #
+  driver_encoded              0.2067  + #
+  avg_speed_i2               -0.1659  - 
+  finished                    0.1624  + 
+  max_speed_st                0.1530  + 
+
+  Isack Hadjar (Red Bull Racing)  -  P(podium)=0.9544
+  Feature                       SHAP  Direction
+  --------------------------------------------------
+  GridPosition                3.6621  + ####################
+  avg_race_position          -1.2288  - ######
+  team_encoded                0.6058  + ###
+  personal_best_count        -0.2539  - #
+  finished                    0.1991  + #
+  max_speed_st                0.1564  + 
+  mean_s1_s                   0.1505  + 
+  mean_s3_s                  -0.1082  - 
+
