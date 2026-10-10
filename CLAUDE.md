@@ -61,10 +61,10 @@ When creating a manual results CSV, use existing files (e.g. `data_pred/data/R05
 
 ## Current Season State (2026)
 
-- Completed races: R01 Australia, R02 China (sprint), R03 Japan, R04 Miami (sprint), R05 Canada (sprint), R06 Monaco, R07 Spain (Barcelona), R08 Austria, R09 Britain (sprint), R10 Belgium, R11 Hungary, R12 Netherlands (Dutch GP), R13 Italy (Monza), R14 Spain (Madrid/"madring"), R15 Azerbaijan
-- Sprint rounds: {2, 4, 5, 9}
-- Next target: Malaysian GP / Sepang (Round 16, FastF1 schedule name "Bahrain Grand Prix") — qualifying data already in `data_pred/data/`
-- Training set grows by 22 rows with each completed race (330 rows as of R15); model quality improves as dataset expands
+- Completed races: R01 Australia, R02 China (sprint), R03 Japan, R04 Miami (sprint), R05 Canada (sprint), R06 Monaco, R07 Spain (Barcelona), R08 Austria, R09 Britain (sprint), R10 Belgium, R11 Hungary, R12 Netherlands (Dutch GP), R13 Italy (Monza), R14 Spain (Madrid/"madring"), R15 Azerbaijan, R16 Malaysia (Sepang)
+- Sprint rounds: {2, 4, 5, 9} (R17 Singapore is also a sprint weekend; its sprint results are used as known features for the prediction)
+- Next target: Singapore GP (Round 17) — qualifying and sprint data already in `data_pred/data/`; prediction in `singapore/`
+- Training set grows by 22 rows with each completed race (352 rows as of R16); model quality improves as dataset expands
 
 ## Agent Harness (PoC)
 
