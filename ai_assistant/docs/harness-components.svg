@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1070" viewBox="0 0 1700 1070">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#4c4a9c"/></marker></defs>
+<rect width="1700" height="1070" fill="#fafaf8"/>
+<text x="40" y="52" font-size="30" font-weight="bold" fill="#1c1f26" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">F1 Podium Assistant: Harness Components</text>
+<text x="40" y="82" font-size="15" fill="#5b6270" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">Everything wrapped around the LLM, and where each piece lives in the code.</text>
+<rect x="580.0" y="130" width="540" height="240" rx="14" fill="#eaf1fe" stroke="#2563eb" stroke-width="1.8"/>
+<circle cx="616.0" cy="166" r="20" fill="#2563eb"/>
+<text x="616.0" y="173" font-size="20" fill="#fff" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="middle" >C</text>
+<text x="648.0" y="164" font-size="21" fill="#1c1f26" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Context</text>
+<text x="648.0" y="184" font-size="11.5" fill="#5b6270" font-weight="normal" font-family="Menlo, 'SF Mono', Consolas, monospace" text-anchor="start" >harness/agent.py · config.py</text>
+<text x="596.0" y="218" font-size="13.5" fill="#5b6270" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" font-style="italic">Provides what the model knows beyond its weights.</text>
+<text x="596.0" y="244" font-size="14" fill="#2563eb" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="610.0" y="244" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >System prompt v1: 5 rules (numbers only from tools, 2026 scope, no</text>
+<text x="610.0" y="263" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >certainty claims)</text>
+<text x="596.0" y="285" font-size="14" fill="#2563eb" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="610.0" y="285" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >User message, 1-2000 chars; no prior turns</text>
+<text x="596.0" y="307" font-size="14" fill="#2563eb" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="610.0" y="307" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Ground truth arrives only as tool results: 15 races of results +</text>
+<text x="610.0" y="326" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >laps CSVs and the Sepang qualifying grid</text>
+<text x="596.0" y="348" font-size="14" fill="#2563eb" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="610.0" y="348" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Every result carries a source field (model or CSV path)</text>
+<rect x="1170" y="237.5" width="490" height="255" rx="14" fill="#f0eafc" stroke="#7c3aed" stroke-width="1.8"/>
+<circle cx="1206" cy="273.5" r="20" fill="#7c3aed"/>
+<text x="1206" y="280.5" font-size="20" fill="#fff" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="middle" >T</text>
+<text x="1238" y="271.5" font-size="21" fill="#1c1f26" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Tools</text>
+<text x="1238" y="291.5" font-size="11.5" fill="#5b6270" font-weight="normal" font-family="Menlo, 'SF Mono', Consolas, monospace" text-anchor="start" >harness/tools.py · schemas.py · f1_core/</text>
+<text x="1186" y="325.5" font-size="13.5" fill="#5b6270" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" font-style="italic">Lets the LLM read the prediction model; it can never change</text>
+<text x="1186" y="343.5" font-size="13.5" fill="#5b6270" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" font-style="italic">anything.</text>
+<text x="1186" y="369.5" font-size="14" fill="#7c3aed" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="1200" y="369.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >8 typed read-only tools: list_drivers, get_prediction,</text>
+<text x="1200" y="388.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >explain_driver, global_importance, get_driver_form,</text>
+<text x="1200" y="407.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >get_race_result, what_if, model_info</text>
+<text x="1186" y="429.5" font-size="14" fill="#7c3aed" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="1200" y="429.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Pure functions over the f1_core Predictor (XGBoost + SHAP),</text>
+<text x="1200" y="448.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >trained once at API startup</text>
+<text x="1186" y="470.5" font-size="14" fill="#7c3aed" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="1200" y="470.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Pydantic result schemas, numbers rounded to 4 dp</text>
+<rect x="1170" y="635.5" width="490" height="259" rx="14" fill="#fdecef" stroke="#be123c" stroke-width="1.8" stroke-dasharray="8 6"/>
+<circle cx="1206" cy="671.5" r="20" fill="#be123c"/>
+<text x="1206" y="678.5" font-size="20" fill="#fff" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="middle" >M</text>
+<text x="1238" y="669.5" font-size="21" fill="#1c1f26" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Memory</text>
+<text x="1238" y="689.5" font-size="11.5" fill="#5b6270" font-weight="normal" font-family="Menlo, 'SF Mono', Consolas, monospace" text-anchor="start" >not implemented</text>
+<rect x="1559.4" y="651.5" width="86.60000000000001" height="24" rx="12" fill="#fff" stroke="#be123c" stroke-width="1.4"/>
+<text x="1602.7" y="668.5" font-size="12" fill="#be123c" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="middle" >NOT BUILT</text>
+<text x="1186" y="723.5" font-size="13.5" fill="#5b6270" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" font-style="italic">Stores past interactions, preferences and long-term knowledge.</text>
+<text x="1186" y="749.5" font-size="14" fill="#be123c" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="1200" y="749.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Stateless: every /chat call runs the agent with no message</text>
+<text x="1200" y="768.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >history</text>
+<text x="1186" y="790.5" font-size="14" fill="#be123c" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="1200" y="790.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >session_id (one per browser tab) only groups Langfuse</text>
+<text x="1200" y="809.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >traces</text>
+<text x="1186" y="831.5" font-size="14" fill="#be123c" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="1200" y="831.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Nothing persisted: no user preferences, no conversation</text>
+<text x="1200" y="850.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >store</text>
+<text x="1186" y="872.5" font-size="14" fill="#be123c" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="1200" y="872.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Users must restate context in follow-ups</text>
+<rect x="580.0" y="760" width="540" height="240" rx="14" fill="#e4f5f3" stroke="#0d9488" stroke-width="1.8"/>
+<circle cx="616.0" cy="796" r="20" fill="#0d9488"/>
+<text x="616.0" y="803" font-size="20" fill="#fff" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="middle" >O</text>
+<text x="648.0" y="794" font-size="21" fill="#1c1f26" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Orchestration</text>
+<text x="648.0" y="814" font-size="11.5" fill="#5b6270" font-weight="normal" font-family="Menlo, 'SF Mono', Consolas, monospace" text-anchor="start" >harness/runner.py · api/main.py</text>
+<text x="596.0" y="848" font-size="13.5" fill="#5b6270" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" font-style="italic">Decides the flow and keeps one request bounded.</text>
+<text x="596.0" y="874" font-size="14" fill="#0d9488" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="610.0" y="874" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Pydantic AI agent loop: LLM picks a tool, gets the result,</text>
+<text x="610.0" y="893" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >repeats, then answers (max 8 tool calls)</text>
+<text x="596.0" y="915" font-size="14" fill="#0d9488" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="610.0" y="915" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Runner streams text, tool calls, tool results and retries to the</text>
+<text x="610.0" y="934" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >UI over SSE</text>
+<text x="596.0" y="956" font-size="14" fill="#0d9488" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="610.0" y="956" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >90 s timeout, retries=2; client disconnect cancels the LLM call</text>
+<text x="596.0" y="978" font-size="14" fill="#0d9488" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="610.0" y="978" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Model picked per request from an OpenRouter allow-list</text>
+<rect x="40" y="624.5" width="490" height="281" rx="14" fill="#fdf3de" stroke="#b45309" stroke-width="1.8"/>
+<circle cx="76" cy="660.5" r="20" fill="#b45309"/>
+<text x="76" y="667.5" font-size="20" fill="#fff" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="middle" >E</text>
+<text x="108" y="658.5" font-size="21" fill="#1c1f26" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Evaluation</text>
+<text x="108" y="678.5" font-size="11.5" fill="#5b6270" font-weight="normal" font-family="Menlo, 'SF Mono', Consolas, monospace" text-anchor="start" >harness/evals/ · tracing.py · feedback.py · tests/</text>
+<text x="56" y="712.5" font-size="13.5" fill="#5b6270" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" font-style="italic">Measures accuracy, grounding and scope, offline and live.</text>
+<text x="56" y="738.5" font-size="14" fill="#b45309" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="70" y="738.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Langfuse datasets f1-harness/{suite}: tool_use,</text>
+<text x="70" y="757.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >correctness, robustness, scope; dev / held-out split</text>
+<text x="56" y="779.5" font-size="14" fill="#b45309" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="70" y="779.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Deterministic evaluators; ground truth recomputed from live</text>
+<text x="70" y="798.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >f1_core</text>
+<text x="56" y="820.5" font-size="14" fill="#b45309" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="70" y="820.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Failure-mode taxonomy filled only from inspected traces</text>
+<text x="56" y="842.5" font-size="14" fill="#b45309" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="70" y="842.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Live: Langfuse tracing plus a thumbs up/down score per</text>
+<text x="70" y="861.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >answer</text>
+<text x="56" y="883.5" font-size="14" fill="#b45309" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="70" y="883.5" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >pytest with a scripted fake LLM</text>
+<rect x="40" y="215.0" width="490" height="300" rx="14" fill="#e6f4ea" stroke="#15803d" stroke-width="1.8"/>
+<circle cx="76" cy="251.0" r="20" fill="#15803d"/>
+<text x="76" y="258.0" font-size="20" fill="#fff" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="middle" >G</text>
+<text x="108" y="249.0" font-size="21" fill="#1c1f26" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Guardrails</text>
+<text x="108" y="269.0" font-size="11.5" fill="#5b6270" font-weight="normal" font-family="Menlo, 'SF Mono', Consolas, monospace" text-anchor="start" >harness/grounding.py · agent.py · runner.py</text>
+<text x="56" y="303.0" font-size="13.5" fill="#5b6270" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" font-style="italic">Keeps answers safe, grounded and on topic.</text>
+<text x="56" y="329.0" font-size="14" fill="#15803d" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="70" y="329.0" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Bad driver / round / grid values raise ModelRetry listing</text>
+<text x="70" y="348.0" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >the valid options</text>
+<text x="56" y="370.0" font-size="14" fill="#15803d" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="70" y="370.0" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Grounding check: any % or decimal not found in a tool</text>
+<text x="70" y="389.0" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >result triggers one retry, then is flagged unverified</text>
+<text x="56" y="411.0" font-size="14" fill="#15803d" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="70" y="411.0" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Hard caps: 8 tool calls and 90 s, with canned fallback</text>
+<text x="70" y="430.0" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >messages</text>
+<text x="56" y="452.0" font-size="14" fill="#15803d" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="70" y="452.0" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Prompt scope rule declines anything outside the 2026</text>
+<text x="70" y="471.0" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >predictions</text>
+<text x="56" y="493.0" font-size="14" fill="#15803d" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >•</text>
+<text x="70" y="493.0" font-size="14" fill="#1c1f26" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Feedback nudge highlights risky answers in the UI</text>
+<circle cx="850.0" cy="565" r="125" fill="#f3f1fb" stroke="#4c4a9c" stroke-width="2.4"/>
+<text x="850.0" y="561" font-size="44" fill="#2b2a63" font-weight="bold" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="middle" >LLM</text>
+<text x="850.0" y="591" font-size="14" fill="#5b6270" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="middle" >via OpenRouter</text>
+<text x="850.0" y="611" font-size="12.5" fill="#5b6270" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="middle" >default: claude-sonnet-4.6</text>
+<line x1="850.0" y1="436.0" x2="850.0" y2="373.0" stroke="#4c4a9c" stroke-width="2.2" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<line x1="850.0" y1="694.0" x2="850.0" y2="757.0" stroke="#4c4a9c" stroke-width="2.2" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<line x1="959.4" y1="496.6" x2="1167.5" y2="366.6" stroke="#4c4a9c" stroke-width="2.2" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<line x1="959.4" y1="633.4" x2="1167.5" y2="763.4" stroke="#4c4a9c" stroke-width="2.2" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<line x1="740.6" y1="496.6" x2="532.5" y2="366.6" stroke="#4c4a9c" stroke-width="2.2" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<line x1="740.6" y1="633.4" x2="532.5" y2="763.4" stroke="#4c4a9c" stroke-width="2.2" marker-start="url(#ah)" marker-end="url(#ah)"/>
+<text x="40" y="1042" font-size="13" fill="#5b6270" font-weight="normal" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif" text-anchor="start" >Based on ai_assistant/backend as of the Sepang (round 16) build. Dashed card = component the harness does not have yet.</text>
+</svg>
