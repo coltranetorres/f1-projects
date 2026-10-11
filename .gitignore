@@ -24,8 +24,8 @@ wheels/
 driver_recognition/models/
 
 # Driver similarity data files
-driver_similarity/data/
-driver_similarity/output/
+**/driver_similarity/data/
+**/driver_similarity/output/
 
 # Local ffmpeg download/build artifacts (not project code)
 ffmpeg.zip
@@ -42,8 +42,8 @@ node_modules/
 *.mp4
 
 # Superpowers design docs/plans (local only)
-docs/superpowers/
+**/docs/superpowers/
 
 # Secrets and JS build artifacts
 .env
-web/dist/
+**/web/dist/

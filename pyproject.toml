@@ -26,3 +26,8 @@ dev = [
     "httpx>=0.28.1",
     "pytest>=9.1.1",
 ]
+
+[tool.pytest.ini_options]
+# ai_assistant/ is imported as a package; miscellaneous/ holds driver_similarity
+pythonpath = [".", "miscellaneous"]
+testpaths = ["ai_assistant/backend/tests", "miscellaneous/driver_similarity/tests"]
