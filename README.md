@@ -82,6 +82,7 @@ Diagrams: [full architecture](ai_assistant/docs/architecture.png) and
 | `leclerc_british_gp_highlights/` | Telemetry-driven highlight video generation for a specific race battle (2025 British GP). |
 | `lewis_barcelona_p1/` | Standalone HTML/video build for a single lap/session visualization. |
 | `custom_flag_alarm/` | A local VS Code extension: a green/yellow/red flag in the sidebar that tracks how long you've been coding and nudges you to take a break. Not F1 data related; see `custom_flag_alarm/README.md`. |
+| `race_dashboard/` | Replay dashboard for the 2026 Singapore GP built from FastF1 position telemetry: team-coloured labelled dots on the track map, a live leaderboard with gaps, lap/lap-time status and play/seek/speed controls. FastAPI backend + React/Vite frontend; see `race_dashboard/CLAUDE.md` for how to run it (`uv run uvicorn ...` and `npm run dev`). |
 
 ## Notes
 
