@@ -23,26 +23,17 @@ See the `new-gp-prediction` skill for the full 5-step workflow (set up the GP di
 
 ### Data Pipeline (`fetch_data.py`)
 
-Fetches all rounds before the target GP and saves per race:
-- `R{rn:02d}_{Event_Name}_results.csv` — one row per driver
-- `R{rn:02d}_{Event_Name}_laps.csv` — per-lap telemetry
-- Sprint weekends additionally save `_sprint_results.csv` and `_sprint_laps.csv`
-
 All `timedelta64` columns are cast to string before saving to avoid serialisation issues.
 
 ### Model Pipeline (`model.py`)
-
-**Feature engineering** — 22 features per driver per race across Results, Lap aggregation, and Sprint groups (see the `FEATURES` list in `model.py` for the exact set).
 
 Only accurate laps (`IsAccurate == True`) are used for lap aggregation. Non-sprint rounds get `sprint_pos=22`, `sprint_points=0`, `sprint_grid=22`, `has_sprint=0`.
 
 `LabelEncoder` is fit on the full training dataset each run — not serialised, so encodings are only stable within a single execution.
 
-**XGBoost config** — `binary:logistic`, `scale_pos_weight = n_non_podium / n_podium` (~6.33 — stays essentially constant as races are added, since every race contributes 3 podium rows out of a ~22-driver field), `max_depth=3`, `learning_rate=0.05`, early stopping on logloss. The best iteration from the 80/20 split is reused when retraining `model_full` on the full dataset.
+**XGBoost config** — `scale_pos_weight = n_non_podium / n_podium` (~6.33 — stays essentially constant as races are added, since every race contributes 3 podium rows out of a ~22-driver field). The best iteration from the 80/20 split is reused when retraining `model_full` on the full dataset.
 
 **Target GP prediction** — per-driver features are averaged across all training races to represent season form. Known values are then overridden: `GridPosition` = actual qualifying position, `positions_gained = 0`, `finished = 1`, sprint fields set based on whether target race is a sprint weekend.
-
-**SHAP** — `shap.TreeExplainer` provides global feature importance and per-driver breakdowns. As of R12 (264 training rows), `GridPosition` dominates (~4× the impact of the next feature, `positions_gained`), with `finished` and `avg_race_position` also contributing meaningfully. As predicted, several features that were near-zero on the original 5-race dataset have activated now that training data has grown well past 100 rows: `sprint_pos`, `mean_lap_s`, and `team_encoded` now carry real SHAP weight. `num_stints`, `mean_s2_s`, and `avg_speed_i2` remain the weakest contributors.
 
 ### CSV Schema
 
