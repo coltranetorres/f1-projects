@@ -122,3 +122,24 @@ export function formatGap(car) {
   if (car.down > 0) return `+${car.down} Lap${car.down > 1 ? "s" : ""}`;
   return `+${car.gap.toFixed(3)}`;
 }
+
+// The set for lap N is built from laps <= N, so show it once the leader has completed lap N.
+export function insightsForLap(insights, lap, finished) {
+  if (!Array.isArray(insights) || insights.length === 0) return null;
+  const n = Math.min(Math.max(finished ? lap : lap - 1, 1), insights.length);
+  return insights.find((e) => e.lap === n) ?? null;
+}
+
+export function splitByDrivers(text, codes) {
+  if (!codes.length) return [{ text }];
+  const re = new RegExp(`\\b(${codes.join("|")})\\b`, "g");
+  const out = [];
+  let last = 0;
+  for (const m of text.matchAll(re)) {
+    if (m.index > last) out.push({ text: text.slice(last, m.index) });
+    out.push({ text: m[0], code: m[0] });
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) out.push({ text: text.slice(last) });
+  return out;
+}

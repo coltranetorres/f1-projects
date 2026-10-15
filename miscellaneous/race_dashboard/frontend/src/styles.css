@@ -55,10 +55,21 @@ button.active:hover, .controls button:first-child:hover, button.active:active, .
 .note.warn { color: var(--warn); }
 .note.overlay { position: absolute; z-index: 1; top: 8px; left: 8px; padding: 6px 10px; background: #000a; border: 1px solid var(--warn); border-radius: 4px; }
 
+.insights { flex: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; min-height: clamp(150px, 26vh, 260px); }
+.card { background: var(--row); border: 1px solid var(--line); border-left: 4px solid var(--red); border-radius: 6px; padding: 14px 16px; min-width: 0; overflow: hidden; }
+.card .tag { display: block; font-size: 13px; color: var(--red); font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; }
+.card h3 { margin: 6px 0 8px; font-size: clamp(18px, 3.2vh, 28px); font-weight: 800; line-height: 1.15; }
+.card p { margin: 0; font-size: clamp(14px, 2.4vh, 20px); color: #cfcfd6; line-height: 1.4; }
+.card .drv { font-weight: 800; }
+.card.fade { animation: card-in 0.35s ease; }
+@keyframes card-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .card.fade { animation: none; } }
+
 @media (max-width: 899px) {
   body { overflow: auto; }
   .layout { grid-template-columns: 1fr; height: auto; min-height: 100dvh; overflow: visible; }
   .leaderboard { font-size: 14px; }
   .leaderboard tbody tr { flex: none; padding: 6px 0; }
   .map-wrap { flex: none; height: 60vh; }
+  .insights { grid-template-columns: 1fr; }
 }

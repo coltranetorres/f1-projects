@@ -1,6 +1,6 @@
 // playback.test.js
 import { describe, expect, it } from "vitest";
-import { FrameBuffer, advancePlayhead, RETRY_MS, RetryTracker, WINDOW_S, formatGap, formatLapTime, windowStart, windowsToFetch } from "./playback.js";
+import { FrameBuffer, advancePlayhead, RETRY_MS, RetryTracker, WINDOW_S, formatGap, formatLapTime, windowStart, windowsToFetch, insightsForLap, splitByDrivers } from "./playback.js";
 
 const win = (t0, frames, over = {}) => ({
   t0, hz: 4, frames,
@@ -161,5 +161,36 @@ describe("formatters", () => {
     expect(formatGap({ pos: 22, status: 3, gap: 0, down: 0 })).toBe("PIT");
     expect(formatGap({ pos: 1, status: 3, gap: 0, down: 0 })).toBe("PIT");
     expect(formatGap({ pos: 21, status: 3, gap: 12, down: 1 })).toBe("PIT");
+  });
+});
+
+
+describe("insightsForLap", () => {
+  const sets = Array.from({ length: 10 }, (_, i) => ({ lap: i + 1, insights: [] }));
+  it("shows the previous completed lap while the leader is mid-lap", () => {
+    expect(insightsForLap(sets, 5, false).lap).toBe(4);
+  });
+  it("shows the lap-1 set while the leader is on lap 1", () => {
+    expect(insightsForLap(sets, 1, false).lap).toBe(1);
+  });
+  it("shows the last lap's set once the leader has finished", () => {
+    expect(insightsForLap(sets, 10, true).lap).toBe(10);
+    expect(insightsForLap(sets, 10, false).lap).toBe(9);
+  });
+  it("clamps to the cached range and tolerates empty data", () => {
+    expect(insightsForLap(sets, 99, false).lap).toBe(10);
+    expect(insightsForLap([], 3, false)).toBeNull();
+    expect(insightsForLap(undefined, 3, false)).toBeNull();
+  });
+});
+
+describe("splitByDrivers", () => {
+  it("splits driver codes out of text", () => {
+    expect(splitByDrivers("NOR chases VER, not NORRIS", ["NOR", "VER"])).toEqual([
+      { text: "NOR", code: "NOR" }, { text: " chases " }, { text: "VER", code: "VER" }, { text: ", not NORRIS" },
+    ]);
+  });
+  it("returns the text unchanged with no codes", () => {
+    expect(splitByDrivers("hello", [])).toEqual([{ text: "hello" }]);
   });
 });

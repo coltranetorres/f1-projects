@@ -6,3 +6,4 @@ async function get(path) {
 
 export const getRace = () => get("/race");
 export const getFrames = (t0, t1) => get(`/frames?t0=${t0}&t1=${t1}`);
+export const getInsights = () => get("/insights");

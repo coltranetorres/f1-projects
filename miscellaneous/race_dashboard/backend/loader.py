@@ -4,6 +4,7 @@ import fastf1
 import numpy as np
 import pandas as pd
 
+from race_dashboard.backend.insights.model import LapRecord, LapTable
 from race_dashboard.backend.replay import DriverInput, RaceInput, Replay, compute_replay
 
 CACHE_DIR = Path(__file__).resolve().parent.parent / "cache"
@@ -89,3 +90,36 @@ if __name__ == "__main__":
     final = sorted(zip(rp.pos[:, last], [d["code"] for d in m["drivers"]], rp.status[:, last], rp.gap[:, last]))
     for p, code, st, gap in final:
         print(p, code, ["RUN", "FIN", "DNF", "PIT"][st], f"+{gap:.3f}")
+
+
+def _num(v):
+    return None if v is None or pd.isna(v) else v
+
+
+def build_lap_table(session) -> LapTable:
+    """Per-driver per-lap records for the insights pipeline. NaN/NaT become None, never 0."""
+    status = session.session_status
+    t0 = status.loc[status["Status"] == "Started", "Time"].iloc[0]
+    records = []
+    for r in session.laps.itertuples(index=False):
+        lap = int(r.LapNumber)
+        pit_in, pit_out = not pd.isna(r.PitInTime), not pd.isna(r.PitOutTime)
+        accurate = (not pd.isna(r.IsAccurate)) and bool(r.IsAccurate)
+        pos, life, stint = _num(r.Position), _num(r.TyreLife), _num(r.Stint)
+        records.append(LapRecord(
+            driver=r.Driver, lap=lap,
+            time_s=None if pd.isna(r.LapTime) else float(r.LapTime.total_seconds()),
+            end_s=None if pd.isna(r.Time) else float((r.Time - t0).total_seconds()),
+            position=None if pos is None else int(pos),
+            compound=_num(r.Compound),
+            tyre_life=None if life is None else int(life),
+            stint=None if stint is None else int(stint),
+            pit_in=pit_in, pit_out=pit_out,
+            clean=accurate and not pit_in and not pit_out and str(r.TrackStatus) == "1" and lap > 1,
+        ))
+    grid = {}
+    for _, row in session.results.iterrows():
+        g = _num(row["GridPosition"])
+        if g is not None and int(g) > 0:
+            grid[row["Abbreviation"]] = int(g)
+    return LapTable(records, int(session.total_laps), grid)

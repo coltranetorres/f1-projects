@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
-import { getRace } from "./api.js";
+import { getInsights, getRace } from "./api.js";
 import { usePlayback } from "./usePlayback.js";
 import TrackMap from "./components/TrackMap.jsx";
 import Leaderboard from "./components/Leaderboard.jsx";
 import RaceStatus from "./components/RaceStatus.jsx";
 import Controls from "./components/Controls.jsx";
+import Insights from "./components/Insights.jsx";
 
 function Dashboard({ race }) {
   const p = usePlayback(race);
+  const [insights, setInsights] = useState(undefined);   // undefined loading, false failed, array ready
+  useEffect(() => { getInsights().then(setInsights).catch(() => setInsights(false)); }, []);
+  const finished = p.view ? p.view.cars.some((c) => c.status === 1) : false;
   return (
     <div className="layout">
       <aside>
@@ -19,6 +23,7 @@ function Dashboard({ race }) {
           {p.view ? <TrackMap race={race} cars={p.view.cars} /> : <div className="note">Loading race data…</div>}
           {p.error ? <div className="note warn overlay">Reconnecting… ({p.error})</div> : null}
         </div>
+        <Insights race={race} insights={insights} lap={p.view ? p.view.lap : 1} finished={finished} />
         <Controls duration={race.duration} t={p.t} playing={p.playing} speed={p.speed}
                   onPlay={p.setPlaying} onSpeed={p.setSpeed} onSeek={p.seek} />
       </main>

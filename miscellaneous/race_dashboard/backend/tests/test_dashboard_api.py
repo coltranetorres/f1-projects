@@ -54,3 +54,14 @@ def test_frames_window_length_is_capped(client, monkeypatch):
 def test_frames_past_end_is_empty_not_error(client):
     r = client.get("/frames", params={"t0": 500, "t1": 560})
     assert r.status_code == 200 and r.json()["frames"] == 0
+
+
+def test_insights_served_when_present(replay):
+    data = [{"lap": 1, "ranked_by": "jev", "insights": []}]
+    with TestClient(create_app(replay, insights=data)) as c:
+        assert c.get("/insights").json() == data
+
+
+def test_insights_404_when_not_built(client):
+    r = client.get("/insights")
+    assert r.status_code == 404 and "insights" in r.json()["detail"]

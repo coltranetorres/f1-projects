@@ -6,6 +6,7 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.143.0",
     "fastf1>=3.8.3",
+    "httpx>=0.28.1",
     "insightface>=0.7.3",
     "langfuse>=4.17.0",
     "onnxruntime>=1.20.0",
@@ -23,7 +24,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "httpx>=0.28.1",
     "pytest>=9.1.1",
 ]
 
